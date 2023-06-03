@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class AccountRecords extends Model {
+  class EmailAddresses extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,17 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  AccountRecords.init({
-    accountId: DataTypes.INTEGER,
-    creditsUsed: DataTypes.INTEGER,
-    active: DataTypes.BOOLEAN
+  EmailAddresses.init({
+    batchId: DataTypes.UUID,
+    email: DataTypes.STRING
   }, {
     sequelize,
-    tableName: 'account_records',
-    modelName: 'AccountRecords',
     underscored:true,
+    paranoid:true,
+    deletedAt:'deletedAt',
     createdAt:'createdAt',
-    updatedAt:'updatedAt'
+    updatedAt:'updatedAt',
+    tableName: 'email_addresses',
+    modelName: 'EmailAddresses',
   });
-  return AccountRecords;
+  return EmailAddresses;
 };

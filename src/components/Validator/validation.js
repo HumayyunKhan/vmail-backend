@@ -2,36 +2,6 @@ const validator = require('email-validator');
 const emailExistence = require('email-existence');
 const dns = require('dns');
 
-async function validateEmail(email) {
-  const isEmailValid = validator.validate(email);
-
-  if (!isEmailValid) {
-    return {
-      validSyntax: false,
-      validDomain: false,
-      validEmail: false,
-    };
-  }
-
-  const domain = email.split('@')[1];
-
-  return new Promise((resolve, reject) => {
-    emailExistence.check(email, (err, res) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({
-          validSyntax: true,
-          validDomain: res,
-          validEmail: isEmailValid && res,
-        });
-      }
-    // }, { sender: 'sherykha78687@gmail.com', timeout: 5000 });
-    },5000,'sherykhan78687@gmail.com');
-  });
-}
-
-
 function isValidDomain(domain) {
   return new Promise((resolve, reject) => {
     dns.resolveMx(domain, (err, addresses) => {
@@ -77,4 +47,4 @@ isValidDomain(domain)
 //   .catch((err) => {
 //     console.error('An error occurred:', err);
 //   });
-module.exports={validateEmail,isSyntaxValid}
+module.exports={isValidDomain,isSyntaxValid}

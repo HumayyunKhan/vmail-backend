@@ -1,0 +1,111 @@
+{
+	"info": {
+		"_postman_id": "a716fcc0-89e7-43c5-b08f-08f0d7d3228c",
+		"name": "VMAIL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23137824"
+	},
+	"item": [
+		{
+			"name": "MAIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/MIH/Downloads/MAIL_BOX DB_STRUCTURE.txt"
+						}
+					]
+				},
+				"url": "http://localhost:3000/maily/validator/validateEmails"
+			},
+			"response": []
+		},
+		{
+			"name": "VALIDATE SINGLE MAIL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/MIH/Downloads/myFile0.csv"
+						}
+					]
+				},
+				"url": "http://localhost:3000/validate/bulkValidate"
+			},
+			"response": []
+		},
+		{
+			"name": "STATUS CHECK",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"1bfd02fb-0ebc-45ff-95e9-e00fb7daae93\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/validate/checkStatus"
+			},
+			"response": []
+		},
+		{
+			"name": "RESULT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"1bfd02fb-0ebc-45ff-95e9-e00fb7daae93\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/validate/result"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
