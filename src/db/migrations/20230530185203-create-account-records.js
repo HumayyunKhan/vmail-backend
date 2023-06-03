@@ -57,7 +57,7 @@ module.exports = {
       },
 
       deliverableAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       createdAt: {
