@@ -2,6 +2,7 @@ const fs = require('fs');
 const httpStatus = require('http-status');
 const {mailer}=require("../../helpers/mailer")
 const db=require('../../db/models')
+const {Op}=require('sequelize')
 const {validateEmail:validate,isSyntaxValid,isValidDomain}=require("./validation")
 require('dotenv').config()
 const axios=require("axios")
@@ -35,8 +36,15 @@ class Validator{
       
         // console.log('Emails BATCH',newBatch);
         // console.log('Emails BATCH',newBatchRecords);
+        const millisecondsIn72Hours = 72 * 60 * 60 * 1000;
+        
+        setTimeout(async() => {
+          await db.Batches.update({status:"FINALIZED"},{where:{batchId:batchId}})
+          // Code to execute after 72 hours
+          console.log('Timeout has completed after 72 hours.');
+        }, millisecondsIn72Hours);
+        
         return res.send({message:"Your file has been successfully uploaded",data:{batchId}})
-
         // console.log(emails);
       })
       .on('error', (error) => {
@@ -50,32 +58,23 @@ return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({message:"emails proces
 }
 
 
- async readEmailsFromCSV(req,res) {
-  try{
-    const {email}=req.body
-    axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.ABSTRACT_API_KEY}&email=${email}`)
-        .then(response => {
-            console.log(response.data);
-            return res.send({response:JSON.stringify(response.data ),success:true})
-        })
-        .catch(error => {
-            console.log(error);
-            return res.send({error})
-        });
-  
-
-}catch(ex){
-  console.log(ex)
-  return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on server side"})
-}
-}
-
-
 async checkStatus(req,res){
   try{
     const {batchId}=req.body
     const batchExist=await db.Batches.findOne({where:{batchId}})
     if(!batchExist)return resource.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+    return res.send({success:true,message:"Batch status successFully fetched",status:batchExist.status})
+  }catch(ex){
+    console.log(ex)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
+  }
+}
+async getDiscardedMails(req,res){
+  try{
+    const {batchId}=req.body
+    const batchExist=await db.Batches.findOne({where:{batchId}})
+    if(!batchExist)return resource.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+    const discardedMails=await db.EmailAddresses.findAll({where:{[Op.not]:{deletedAt:null}}})
     return res.send({success:true,message:"Batch status successFully fetched",status:batchExist.status})
   }catch(ex){
     console.log(ex)
@@ -91,6 +90,18 @@ async processedData(req,res){
     const processedMails=await db.EmailAddresses.findAll({where:{batchId:batchId}})
 
     return res.send({success:true,message:"Batch Data successFully fetched",data:processedMails})
+  }catch(ex){
+    console.log(ex)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
+  }
+}
+async batchRecord(req,res){
+  try{
+    
+    const batches=await db.Batches.findAll({})
+    if(!batches)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+
+    return res.send({success:true,message:"Batch Data successFully fetched",data:batches})
   }catch(ex){
     console.log(ex)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})

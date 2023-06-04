@@ -8,7 +8,6 @@ router.post('/registerAccount',validate(userInfo), admin.register);
 
 router.get('/getAccounts', admin.displayAccounts);
 
-router.get('/checkInbox/:id',admin.checkInbox)
 router.use(async function (err, req, res, next) {
     // console.log(req)
     console.log(err)

@@ -13,8 +13,8 @@ router.post('/result',(req,res)=>{
     Validator.processedData(req,res)             
  
 })   
-router.post('/validate',(req,res)=>{
-    Validator.readEmailsFromCSV(req,res)
+router.post('/getBatches',(req,res)=>{
+    Validator.batchRecord(req,res)
  
 })   
 

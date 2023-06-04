@@ -23,19 +23,6 @@ function isSyntaxValid(email) {
 // Usage example
 const domain = 'wego.com';
 
-isValidDomain(domain)
-  .then((isValid,err) => {
-    if (isValid) {
-      console.log(`${domain} is a valid domain.`);
-    } else {
-      console.log(`${domain} is not a valid domain.`);
-    }
-    console.log(err)
-  })
-  .catch(error => {
-    console.error('An error occurred:', error);
-  });
-
 // Usage example
 // const email = 'example@example.com';
 // validateEmail(email)
