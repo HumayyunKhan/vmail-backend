@@ -144,3 +144,20 @@ body {
   color: red;
 }
 
+.email-table .pending, .email-table .finalized{
+  font-style: italic;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.email-table .pending {
+  color: rgb(255, 179, 0);
+}
+
+.email-table .finalized {
+  color: #23ea00;
+}
+

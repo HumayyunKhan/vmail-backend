@@ -6,7 +6,7 @@ const paramValidation = {
     body: Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-      smtpPort: Joi.number().required(),
+      port: Joi.number().required(),
       domain: Joi.string().required(),
     }),
   },

@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Batches.init({
-    batchId: { type: DataTypes.UUID, field: 'batch_id', allowNull: false },
+    batchId: {type:DataTypes.UUID,field:'batch_id',allowNull:false},
     status: DataTypes.STRING,
     deliverableAt: { type: DataTypes.STRING, field: 'deliverableAt' }
   }, {
     sequelize,
-    // underscored: true,
-    paranoid: true,
-    timestamps: true,
+    // underscored:true,
+    // paranoid:true,
+    timestamps:true,
     tableName: 'batches',
     modelName: 'Batches',
   });

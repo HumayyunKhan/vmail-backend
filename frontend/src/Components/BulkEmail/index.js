@@ -7,6 +7,8 @@ const BulkEmail = (props) => {
 
     const [selectedFiles, setSelectedFiles] = useState([]);
 
+    const [batchId, setBatchId] = useState('');
+
 
     const handleFileSelect = (e) => {
         const files = Array.from(e.target.files);
@@ -31,6 +33,12 @@ const BulkEmail = (props) => {
         const updatedFiles = selectedFiles.filter((f) => f !== file);
         setSelectedFiles(updatedFiles);
     };
+
+    const handleSubmit = async () => {
+        const response = await props.validateEmails(selectedFiles[0])
+        console.log('handleSubmit response : ' + response)
+        setBatchId(response);
+    }
 
 
 
@@ -61,9 +69,14 @@ const BulkEmail = (props) => {
                     ))}
                 </div>
             </div>
+            {batchId !== '' ?
+                <h5 className='batch-id'>Batch ID of your request: {batchId}</h5>
+                : null
+            }
             <div className='btn-container'>
-                <button onClick={() => props.validateEmails(selectedFiles[0])}>Validate Emails</button>
+                <button onClick={() => handleSubmit()}>Validate Emails</button>
             </div>
+
         </>
     )
 }

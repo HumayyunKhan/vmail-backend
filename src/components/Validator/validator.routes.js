@@ -13,10 +13,15 @@ router.post('/result',(req,res)=>{
     Validator.processedData(req,res)             
  
 })   
-router.post('/validate',(req,res)=>{
-    Validator.readEmailsFromCSV(req,res)
+router.get('/getBatches',(req,res)=>{
+    Validator.batchRecord(req,res)
  
 })   
+
+router.post('/getDiscardedMails',(req,res)=>{
+  Validator.getDiscardedMails(req,res)
+
+})
 
 
 router.use(function (err, req, res, next) {
