@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Batches.init({
-    batchId: DataTypes.UUID,
+    batchId: {type:DataTypes.UUID,field:'batch_id',allowNull:false},
     status: DataTypes.STRING,
     deliverableAt:{type:DataTypes.STRING,field:'deliverableAt'}
   }, {

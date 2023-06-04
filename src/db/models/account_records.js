@@ -10,20 +10,24 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      AccountRecords.belongsTo(models.TestAccounts,{
+        foreignKey: 'accountId',
+        targetKey:'id',
+        // onDelete:"CASCADE"
+      })
       // define association here
     }
   }
   AccountRecords.init({
-    accountId: DataTypes.INTEGER,
-    creditsUsed: DataTypes.INTEGER,
+    accountId: {type:DataTypes.INTEGER,allowNull:false,field:'account_id'},
+    creditsUsed: {type:DataTypes.INTEGER,allowNull:false,field:'credits_used'},
     active: DataTypes.BOOLEAN
   }, {
     sequelize,
     tableName: 'account_records',
     modelName: 'AccountRecords',
-    underscored:true,
-    createdAt:'createdAt',
-    updatedAt:'updatedAt'
+    timestamps:true,
+
   });
   return AccountRecords;
 };
