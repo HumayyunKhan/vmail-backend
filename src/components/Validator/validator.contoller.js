@@ -73,10 +73,10 @@ async getDiscardedMails(req,res){
   try{
     const {batchId}=req.body
     const batchExist=await db.Batches.findOne({where:{batchId}})
-    if(!batchExist)return resource.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
-    const discardedMails=await db.EmailAddresses.findAll({where:{[Op.not]:{deletedAt:null}}})
-    return res.send({success:true,message:"Batch status successFully fetched",status:batchExist.status})
-  }catch(ex){
+    if(!batchExist)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+    const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null } }, paranoid: false })
+    return res.send({success:true,message:"Batch status successFully fetched",data:discardedMails})
+  }catch(ex){ 
     console.log(ex)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
   }
@@ -97,7 +97,6 @@ async processedData(req,res){
 }
 async batchRecord(req,res){
   try{
-    
     const batches=await db.Batches.findAll({})
     if(!batches)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
 

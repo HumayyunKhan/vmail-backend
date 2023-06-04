@@ -12,7 +12,7 @@ module.exports = {
       {email:'emilyohail9863@gmail.com',password:'kkhesyhvqokmnhwb',domain:'smtp.gmail.com',port:587},
       {email:'tomogawa7321@gmail.com',password:'egjtepitxkeckkwg',domain:'smtp.gmail.com',port:587},
       {email:'robinsimth9663@gmail.com',password:'tmfsgovqbestvcb',domain:'smtp.gmail.com',port:587},
-      {email:'yotamball846d@gmail.com	285sona285',password:'gtnracznomujluhu',domain:'smtp.gmail.com',port:587},
+      {email:'yotamball846d@gmail.com',password:'gtnracznomujluhu',domain:'smtp.gmail.com',port:587},
       {email:'kanewilliamson298d@gmail.com',password:'uriuxowirmpbnsso',domain:'smtp.gmail.com',port:587},
       {email:'augustabaily7433@gmail.com',password:'gfofbehkjlhrtcvm',domain:'smtp.gmail.com',port:587},
       {email:'jimlarry7652@gmail.com',password:'dzxkrtfigikvtwxu',domain:'smtp.gmail.com',port:587},

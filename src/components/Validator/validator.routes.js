@@ -13,7 +13,7 @@ router.post('/result',(req,res)=>{
     Validator.processedData(req,res)             
  
 })   
-router.post('/getBatches',(req,res)=>{
+router.get('/getBatches',(req,res)=>{
     Validator.batchRecord(req,res)
  
 })   
