@@ -17,6 +17,10 @@ router.post('/getBatches',(req,res)=>{
     Validator.batchRecord(req,res)
  
 })   
+router.post('/getDiscardedMails',(req,res)=>{
+    Validator.getDiscardedMails(req,res)
+ 
+})   
 
 
 router.use(function (err, req, res, next) {
