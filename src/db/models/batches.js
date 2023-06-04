@@ -19,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     deliverableAt:{type:DataTypes.STRING,field:'deliverableAt'}
   }, {
     sequelize,
-    underscored:true,
-    paranoid:true,
-    timestamps:false,
+    // underscored:true,
+    // paranoid:true,
+    timestamps:true,
     tableName: 'batches',
     modelName: 'Batches',
   });
