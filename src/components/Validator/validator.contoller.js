@@ -1,6 +1,6 @@
 const fs = require('fs');
 const httpStatus = require('http-status');
-// const Checker=require("../../helpers/checker")
+const {mailer}=require("../../helpers/mailer")
 const db=require('../../db/models')
 const {validateEmail:validate,isSyntaxValid,isValidDomain}=require("./validation")
 require('dotenv').config()
@@ -15,6 +15,7 @@ class Validator{
     try{
       const batchId=uuidv4()
     const emails = [];
+    const addresses = [];
     const filePath=req.file.path 
     if(!filePath)return res.status(httpStatus.CONFLICT).send({success:false,message:"No file specified"})
 
@@ -23,13 +24,17 @@ class Validator{
       .on('data', (data) => {
         const email = data.email; // Assuming the email column name is 'email'. Modify this if your CSV has a different column name.
         emails.push({batchId,email});
+        addresses.push(email);
       })
       .on('end', async() => {
+        
       const newBatch=await db.Batches.create({batchId})
-      const newBatchRecords=await db.TestAccounts.bulkCreate(emails)
+      const newBatchRecords=await db.EmailAddresses.bulkCreate(emails)
+      const fakelist=['pawa@gmail.com',"lawa@gmail.com","pawa@devblends.com","pawa@techmania.pk"]
+      // mailer(addresses)
       
-        console.log('Emails BATCH',newBatch);
-        console.log('Emails BATCH',newBatchRecords);
+        // console.log('Emails BATCH',newBatch);
+        // console.log('Emails BATCH',newBatchRecords);
         return res.send({message:"Your file has been successfully uploaded",data:{batchId}})
 
         // console.log(emails);

@@ -18,7 +18,7 @@ module.exports = {
       {email:'jimlarry7652@gmail.com',password:'dzxkrtfigikvtwxu',domain:'smtp.gmail.com',port:587},
 
     ])
-    /**
+    /** 
      * Add seed commands here.
      * chrisagulter9642@gmail.com	275sona275	 nitinsahu287290@gmail.com	gwbkzjtgfcyqqrxm
 eolabrian9655@gmail.com	276sona276	 nitinsahu287290@gmail.com	onrwvwvxflixmjvd

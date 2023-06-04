@@ -14,17 +14,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   EmailAddresses.init({
-    batchId: DataTypes.UUID,
+    batchId: { type: DataTypes.UUID, field: 'batch_id' },
+    deletedAt: { type: DataTypes.DATE, defaultValue: null},
     email: DataTypes.STRING
   }, {
     sequelize,
-    underscored:true,
-    paranoid:true,
-    deletedAt:'deletedAt',
-    createdAt:'createdAt',
-    updatedAt:'updatedAt',
+    paranoid: true,
+    timestamps: true,
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
     tableName: 'email_addresses',
     modelName: 'EmailAddresses',
   });
   return EmailAddresses;
-};
+}; 

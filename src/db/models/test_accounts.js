@@ -10,10 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      TestAccounts.belongsTo(models.AccountRecords,{
+        foreignKey: 'id',
+        targetKey:'accountId',
+        onDelete:"CASCADE"
+      })
       // define association here
     }
   }
   TestAccounts.init({
+    id:{primaryKey:true,autoIncrement:true,type:DataTypes.INTEGER},
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     domain: DataTypes.STRING,
