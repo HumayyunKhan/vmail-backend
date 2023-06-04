@@ -1,7 +1,7 @@
 const http = require('http');
-const {dailyStatsHandler}=require("./imap")
+const { dailyStatsHandler } = require("./imap")
 const address = process.env.LISTEN_ADDRESS || 'localhost';
-const { PORT=3000 } = process.env;
+const { PORT = 3000 } = process.env;
 require('dotenv').config()
 
 const app = require('./app');

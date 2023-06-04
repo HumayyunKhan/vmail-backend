@@ -1,0 +1,19 @@
+.validation-status {
+    font-size: 16px;
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.validation-status p {
+    font-style: italic;
+}
+
+.validation-status .pending {
+    color: rgba(255, 255, 0, 0.899);
+}
+
+.validation-status .finalized {
+    color: #23ea00;
+
+}

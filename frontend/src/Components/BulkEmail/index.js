@@ -3,7 +3,7 @@ import './bulkEmail.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 
-const BulkEmail = () => {
+const BulkEmail = (props) => {
 
     const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -33,6 +33,8 @@ const BulkEmail = () => {
     };
 
 
+
+
     return (
         <>
             <div className='title-container'>
@@ -60,7 +62,7 @@ const BulkEmail = () => {
                 </div>
             </div>
             <div className='btn-container'>
-                <button>Validate Emails</button>
+                <button onClick={() => props.validateEmails(selectedFiles[0])}>Validate Emails</button>
             </div>
         </>
     )
