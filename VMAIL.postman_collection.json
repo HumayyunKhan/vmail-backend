@@ -7,26 +7,25 @@
 	},
 	"item": [
 		{
-			"name": "MAIN",
+			"name": "REGISTER TEST ACCOUNT",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "/C:/Users/MIH/Downloads/MAIL_BOX DB_STRUCTURE.txt"
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"kanewilliamson298d@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
-				"url": "http://localhost:3000/maily/validator/validateEmails"
+				"url": "http://localhost:4000/admin/registerAccount"
 			},
 			"response": []
 		},
 		{
-			"name": "VALIDATE SINGLE MAIL",
+			"name": "UPLOAD CSV",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -40,7 +39,7 @@
 						}
 					]
 				},
-				"url": "http://localhost:3000/validate/bulkValidate"
+				"url": "http://localhost:4000/validate/bulkValidate"
 			},
 			"response": []
 		},
@@ -51,14 +50,14 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"batchId\":\"1bfd02fb-0ebc-45ff-95e9-e00fb7daae93\"\r\n}",
+					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:3000/validate/checkStatus"
+				"url": "http://localhost:4000/validate/checkStatus"
 			},
 			"response": []
 		},
@@ -69,14 +68,32 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"batchId\":\"1bfd02fb-0ebc-45ff-95e9-e00fb7daae93\"\r\n}",
+					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:3000/validate/result"
+				"url": "http://localhost:4000/validate/result"
+			},
+			"response": []
+		},
+		{
+			"name": "DISCARDED MAILS",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4000/validate/getDiscardedMails"
 			},
 			"response": []
 		}
