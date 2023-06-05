@@ -27,7 +27,7 @@ const FileHandler = () => {
 
   const statusCheck = async (batchId) => {
     try {
-      const response = await fetch('http://localhost:3000/validate/checkStatus', {
+      const response = await fetch('http://localhost:4000/validate/checkStatus', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const FileHandler = () => {
 
   const getDiscardedEmails = async (batchId) => {
     try {
-      const response = await fetch('http://localhost:3000/validate/getDiscardedMails', {
+      const response = await fetch('http://localhost:4000/validate/getDiscardedMails', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const FileHandler = () => {
     } 
 
     try {
-      const response = await fetch('http://localhost:3000/validate/result', {
+      const response = await fetch('http://localhost:4000/validate/result', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ const FileHandler = () => {
     formData.append('file', csvFile);
 
     try {
-      const response = await fetch('http://localhost:3000/validate/bulkValidate', {
+      const response = await fetch('http://localhost:4000/validate/bulkValidate', {
         method: 'POST',
         body: formData,
       });
@@ -231,7 +231,7 @@ const FileHandler = () => {
   };
 
   const getAllBatchIds = async () => {
-    fetch('http://localhost:3000/validate/getBatches')
+    fetch('http://localhost:4000/validate/getBatches')
       .then(response => response.json())
       .then(json => {
         // Process the data received from the API
