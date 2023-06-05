@@ -9,6 +9,8 @@ const axios = require("axios")
 const { v4: uuidv4 } = require('uuid');
 const csv = require('csv-parser');
 
+
+
 class Validator {
 
   async fetchEmailsFromCSV(req, res) {
@@ -30,12 +32,10 @@ class Validator {
 
           const newBatch = await db.Batches.create({ batchId })
           const newBatchRecords = await db.EmailAddresses.bulkCreate(emails)
-          const fakelist = ['pawa@gmail.com', "lawa@gmail.com", "pawa@devblends.com", "pawa@techmania.pk"]
           mailer(addresses)
 
-          // console.log('Emails BATCH',newBatch);
-          // console.log('Emails BATCH',newBatchRecords);
           const millisecondsIn72Hours = 72 * 60 * 60 * 1000;
+          // const millisecondsIn72Hours = 30 * 1000;
 
           setTimeout(async () => {
             await db.Batches.update({ status: "FINALIZED" }, { where: { batchId: batchId } })
@@ -44,7 +44,6 @@ class Validator {
           }, millisecondsIn72Hours);
 
           return res.send({ message: "Your file has been successfully uploaded", data: { batchId } })
-          // console.log(emails);
         })
         .on('error', (error) => {
           console.error('An error occurred while reading the CSV file:', error);
@@ -57,47 +56,47 @@ class Validator {
   }
 
 
-async checkStatus(req,res){
-  try{
-    const {batchId}=req.body
-    const batchExist=await db.Batches.findOne({where:{batchId}})
-    if(!batchExist)return resource.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
-    return res.send({success:true,message:"Batch status successFully fetched",status:batchExist.status})
-  }catch(ex){
-    console.log(ex)
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
+  async checkStatus(req, res) {
+    try {
+      const { batchId } = req.body
+      const batchExist = await db.Batches.findOne({ where: { batchId } })
+      if (!batchExist) return resource.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
+      return res.send({ success: true, message: "Batch status successFully fetched", status: batchExist.status })
+    } catch (ex) {
+      console.log(ex)
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
+    }
   }
-}
-async getDiscardedMails(req,res){
-  try{
-    const {batchId}=req.body
-    const batchExist=await db.Batches.findOne({where:{batchId}})
-    if(!batchExist)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
-    const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null } }, paranoid: false })
-    return res.send({success:true,message:"Batch status successFully fetched",data:discardedMails})
-  }catch(ex){ 
-    console.log(ex)
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
+  async getDiscardedMails(req, res) {
+    try {
+      const { batchId } = req.body
+      const batchExist = await db.Batches.findOne({ where: { batchId } })
+      if (!batchExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
+      const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null, batchId: batchId } }, paranoid: false })
+      return res.send({ success: true, message: "Batch status successFully fetched", data: discardedMails })
+    } catch (ex) {
+      console.log(ex)
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
+    }
   }
-}
-async processedData(req,res){
-  try{
-    const {batchId}=req.body
-    const batchExist=await db.Batches.findOne({where:{batchId}})
-    if(!batchExist)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
-    if(batchExist.status!='FINALIZED')return res.status(404).send({success:false,message:"Your batch hasn't been finalized yet"})
-    const processedMails=await db.EmailAddresses.findAll({where:{batchId:batchId}})
+  async processedData(req, res) {
+    try {
+      const { batchId } = req.body
+      const batchExist = await db.Batches.findOne({ where: { batchId } })
+      if (!batchExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
+      if (batchExist.status != 'FINALIZED') return res.status(404).send({ success: false, message: "Your batch hasn't been finalized yet" })
+      const processedMails = await db.EmailAddresses.findAll({ where: { batchId: batchId } })
 
-    return res.send({success:true,message:"Batch Data successFully fetched",data:processedMails})
-  }catch(ex){
-    console.log(ex)
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
+      return res.send({ success: true, message: "Batch Data successFully fetched", data: processedMails })
+    } catch (ex) {
+      console.log(ex)
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
+    }
   }
-}
-async batchRecord(req,res){
-  try{
-    const batches=await db.Batches.findAll({})
-    if(!batches)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+  async batchRecord(req, res) {
+    try {
+      const batches = await db.Batches.findAll({})
+      if (!batches) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
 
       return res.send({ success: true, message: "Batch Data successFully fetched", data: batches })
     } catch (ex) {
@@ -105,5 +104,6 @@ async batchRecord(req,res){
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
     }
   }
-};
-module.exports = new Validator()
+
+}
+module.exports = new Validator() 
