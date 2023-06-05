@@ -34,4 +34,4 @@ const domain = 'wego.com';
 //   .catch((err) => {
 //     console.error('An error occurred:', err);
 //   });
-module.exports={isValidDomain,isSyntaxValid}
+module.exports = { isValidDomain, isSyntaxValid }

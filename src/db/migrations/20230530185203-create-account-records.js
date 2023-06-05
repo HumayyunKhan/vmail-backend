@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('account_records', {   
+    await queryInterface.createTable('account_records', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,22 +11,22 @@ module.exports = {
       },
       account_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'test_accounts',
-          key:'id',
-          as:'account_id'
+        references: {
+          model: 'test_accounts',
+          key: 'id',
+          as: 'account_id'
 
         }
       },
       credits_used: {
         type: Sequelize.INTEGER,
-        allowNull:false,
-        defaultValue:0
+        allowNull: false,
+        defaultValue: 0
       },
       active: {
         type: Sequelize.BOOLEAN,
-        allowNull:false,
-        defaultValue:true
+        allowNull: false,
+        defaultValue: true
       },
       createdAt: {
         allowNull: false,
@@ -36,12 +36,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      deletedAt:{
-        allowNull:true,
-        type:Sequelize.DATE
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
       }
     });
-    await queryInterface.createTable('batches', {   
+    await queryInterface.createTable('batches', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -50,14 +50,14 @@ module.exports = {
       },
       batch_id: {
         type: Sequelize.UUID,
-        allowNull:false
-     
+        allowNull: false
+
       },
       status: {
         type: Sequelize.STRING,
-        allowNull:false,
-        defaultValue:'PENDING',
-        
+        allowNull: false,
+        defaultValue: 'PENDING',
+
       },
 
       deliverableAt: {
@@ -72,9 +72,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      deletedAt:{
-        allowNull:true,
-        type:Sequelize.DATE
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
       }
     });
   },
