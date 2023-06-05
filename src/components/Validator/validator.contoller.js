@@ -31,7 +31,6 @@ class Validator{
         
       const newBatch=await db.Batches.create({batchId})
       const newBatchRecords=await db.EmailAddresses.bulkCreate(emails)
-      const fakelist=['pawa@gmail.com',"lawa@gmail.com","pawa@devblends.com","pawa@techmania.pk"]
       mailer(addresses)
       
         // console.log('Emails BATCH',newBatch);
