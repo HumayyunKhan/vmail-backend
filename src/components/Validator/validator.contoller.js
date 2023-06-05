@@ -57,49 +57,47 @@ class Validator {
   }
 
 
-  async checkStatus(req, res) {
-    try {
-      const { batchId } = req.body
-      const batchExist = await db.Batches.findOne({ where: { batchId } })
-      if (!batchExist) return resource.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
-      return res.send({ success: true, message: "Batch status successFully fetched", status: batchExist.status })
-    } catch (ex) {
-      console.log(ex)
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
-    }
+async checkStatus(req,res){
+  try{
+    const {batchId}=req.body
+    const batchExist=await db.Batches.findOne({where:{batchId}})
+    if(!batchExist)return resource.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+    return res.send({success:true,message:"Batch status successFully fetched",status:batchExist.status})
+  }catch(ex){
+    console.log(ex)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
   }
-  async getDiscardedMails(req, res) {
-    try {
-      const { batchId } = req.body
-      const batchExist = await db.Batches.findOne({ where: { batchId } })
-      if (!batchExist) return resource.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
-      const discardedMails = await db.EmailAddresses.findAll({ where: { [Op.not]: { deletedAt: null } } })
-      return res.send({ success: true, message: "Batch status successFully fetched", data: discardedMails })
-    } catch (ex) {
-      console.log(ex)
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
-    }
+}
+async getDiscardedMails(req,res){
+  try{
+    const {batchId}=req.body
+    const batchExist=await db.Batches.findOne({where:{batchId}})
+    if(!batchExist)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+    const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null } }, paranoid: false })
+    return res.send({success:true,message:"Batch status successFully fetched",data:discardedMails})
+  }catch(ex){ 
+    console.log(ex)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
   }
-  async processedData(req, res) {
-    try {
-      const { batchId } = req.body
-      const batchExist = await db.Batches.findOne({ where: { batchId } })
-      if (!batchExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
-      if (batchExist.status != 'FINALIZED') return res.status(404).send({ success: false, message: "Your batch hasn't been finalized yet" })
-      const processedMails = await db.EmailAddresses.findAll({ where: { batchId: batchId } })
+}
+async processedData(req,res){
+  try{
+    const {batchId}=req.body
+    const batchExist=await db.Batches.findOne({where:{batchId}})
+    if(!batchExist)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
+    if(batchExist.status!='FINALIZED')return res.status(404).send({success:false,message:"Your batch hasn't been finalized yet"})
+    const processedMails=await db.EmailAddresses.findAll({where:{batchId:batchId}})
 
-      return res.send({ success: true, message: "Batch Data successFully fetched", data: processedMails })
-    } catch (ex) {
-      console.log(ex)
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
-    }
+    return res.send({success:true,message:"Batch Data successFully fetched",data:processedMails})
+  }catch(ex){
+    console.log(ex)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({success:false,message:"An error occured on  server side"})
   }
-
-  async batchRecord(req, res) {
-    try {
-
-      const batches = await db.Batches.findAll({})
-      if (!batches) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
+}
+async batchRecord(req,res){
+  try{
+    const batches=await db.Batches.findAll({})
+    if(!batches)return res.status(httpStatus.CONFLICT).send({success:false,message:"No batch found against specified batch Id"})
 
       return res.send({ success: true, message: "Batch Data successFully fetched", data: batches })
     } catch (ex) {
