@@ -7,22 +7,84 @@
 	},
 	"item": [
 		{
-			"name": "REGISTER TEST ACCOUNT",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"kanewilliamson298d@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "ADMIN PANEL",
+			"item": [
+				{
+					"name": "REGISTER TEST ACCOUNT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"dummy@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/registerAccount"
+					},
+					"response": []
 				},
-				"url": "http://localhost:4000/admin/registerAccount"
-			},
-			"response": []
+				{
+					"name": "FETCH ACCOUNTS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kanewilliamson298d@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/getAccounts"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ACCOUNT",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kanewilliamson298d@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/deleteAccount/12"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ACCOUNT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kane@gmail.com\",\r\n    \"password\":\"uriurmpbnsso\",\r\n    \"port\":997,\r\n    \"domain\":\"smtp.domain.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/updateAccount/13"
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "UPLOAD CSV",
@@ -39,7 +101,7 @@
 						}
 					]
 				},
-				"url": "http://localhost:4000/validate/bulkValidate"
+				"url": "https://vmail.herokuapp.com/validate/bulkValidate"
 			},
 			"response": []
 		},

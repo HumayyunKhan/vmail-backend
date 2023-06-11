@@ -5,17 +5,17 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('test_accounts',[
-      {email:'chrisagulter9642@gmail.com',password:'gwbkzjtgfcyqqrxm',domain:'smtp.gmail.com',port:587,},
-      {email:'eolabrian9655@gmail.com',password:'onrwvwvxflixmjvd',domain:'smtp.gmail.com',port:587,     },
-      {email:'ellywhite7344@gmail.com',password:'osdrqquhlsoopirl',domain:'smtp.gmail.com',port:587    },
-      {email:'aillybrown8422@gmail.com',password:'lfrrsxlsherhwtgv',domain:'smtp.gmail.com',port:587},
-      {email:'emilyohail9863@gmail.com',password:'kkhesyhvqokmnhwb',domain:'smtp.gmail.com',port:587},
-      {email:'tomogawa7321@gmail.com',password:'egjtepitxkeckkwg',domain:'smtp.gmail.com',port:587},
-      {email:'robinsimth9663@gmail.com',password:'tmfsgovqbestvcb',domain:'smtp.gmail.com',port:587},
-      {email:'yotamball846d@gmail.com',password:'gtnracznomujluhu',domain:'smtp.gmail.com',port:587},
-      {email:'kanewilliamson298d@gmail.com',password:'uriuxowirmpbnsso',domain:'smtp.gmail.com',port:587},
-      {email:'augustabaily7433@gmail.com',password:'gfofbehkjlhrtcvm',domain:'smtp.gmail.com',port:587},
-      {email:'jimlarry7652@gmail.com',password:'dzxkrtfigikvtwxu',domain:'smtp.gmail.com',port:587},
+      {email:'chrisagulter9642@gmail.com',password:'gwbkzjtgfcyqqrxm',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'eolabrian9655@gmail.com',password:'onrwvwvxflixmjvd',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date(),    },
+      {email:'ellywhite7344@gmail.com',password:'osdrqquhlsoopirl',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()    },
+      {email:'aillybrown8422@gmail.com',password:'lfrrsxlsherhwtgv',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'emilyohail9863@gmail.com',password:'kkhesyhvqokmnhwb',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'tomogawa7321@gmail.com',password:'egjtepitxkeckkwg',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'robinsimth9663@gmail.com',password:'tmfsgovqbestvcb',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'yotamball846d@gmail.com',password:'gtnracznomujluhu',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'kanewilliamson298d@gmail.com',password:'uriuxowirmpbnsso',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'augustabaily7433@gmail.com',password:'gfofbehkjlhrtcvm',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
+      {email:'jimlarry7652@gmail.com',password:'dzxkrtfigikvtwxu',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
 
     ])
     /** 
