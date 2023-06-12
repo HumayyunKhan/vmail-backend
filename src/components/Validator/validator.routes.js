@@ -13,6 +13,10 @@ router.post('/result', (req, res) => {
     Validator.processedData(req, res)
 
 })
+router.get('/dailyLimit', (req, res) => {
+    Validator.dailyLimit(req, res)
+
+})
 router.get('/getBatches', (req, res) => {
     Validator.batchRecord(req, res)
 

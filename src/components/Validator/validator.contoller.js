@@ -35,7 +35,7 @@ class Validator {
 
           const newBatch = await db.Batches.create({ batchId, deliverableAt:date.toUTCString() })
           const newBatchRecords = await db.EmailAddresses.bulkCreate(emails)
-          mailer(addresses)
+          // mailer(addresses)
 
           const millisecondsIn72Hours = 72 * 60 * 60 * 1000;
           // const millisecondsIn72Hours = 30 * 1000;
@@ -77,6 +77,45 @@ class Validator {
       if (!batchExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
       const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null, batchId: batchId } }, paranoid: false })
       return res.send({ success: true, message: "Batch status successFully fetched", data: discardedMails })
+    } catch (ex) {
+      console.log(ex)
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
+    }
+  }
+  async processedData(req, res) {
+    try {
+      const { batchId } = req.body
+      const batchExist = await db.Batches.findOne({ where: { batchId } })
+      if (!batchExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
+      if (batchExist.status != 'FINALIZED') return res.status(404).send({ success: false, message: "Your batch hasn't been finalized yet" })
+      const processedMails = await db.EmailAddresses.findAll({ where: { batchId: batchId } })
+
+      return res.send({ success: true, message: "Batch Data successFully fetched", data: processedMails })
+    } catch (ex) {
+      console.log(ex)
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
+    }
+  }
+  async dailyLimit(req, res) {
+    try {
+      const today = new Date();
+      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+      const accountRecords = await db.AccountRecords.findAll({
+        where: {
+            createdAt: {
+                [Op.between]: [startOfDay, endOfDay],
+            }, creditsUsed: { [Op.lt]: 500 },deletedAt:null
+        }
+    })
+    const totalLimit=500*accountRecords.length
+    let credsUsed=0
+    for(const record of accountRecords){
+      credsUsed+=record.creditsUsed
+    }
+
+      return res.send({ success: true, message: "Daily limit Successfully fetcehd", limit:totalLimit-credsUsed  })
     } catch (ex) {
       console.log(ex)
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })

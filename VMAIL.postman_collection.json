@@ -106,6 +106,25 @@
 			"response": []
 		},
 		{
+			"name": "DAILYLIMIT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/MIH/Downloads/myFile0.csv"
+						}
+					]
+				},
+				"url": "https://vmail.herokuapp.com/validate/bulkValidate"
+			},
+			"response": []
+		},
+		{
 			"name": "STATUS CHECK",
 			"request": {
 				"method": "POST",
