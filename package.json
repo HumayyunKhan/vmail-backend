@@ -9,7 +9,7 @@
     "db:migrate": "npx sequelize-cli db:migrate",
     "seed": "npx sequelize-cli db:seed:all",
     "predev": "cross-env NODE_ENV=development npm run db:migrate",
-    "prestart": "npm run db:migrate"
+    "prestart": "npm run db:migrate && npm run seed"
   },
   "keywords": [],
   "author": "",

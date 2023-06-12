@@ -45,7 +45,9 @@ class Admin {
   register = async (req, res) => {
     try {
       const { email, password, port, domain } = req.body
-      const alreadyExist = await db.TestAccounts.findOne({ where: { email } })
+
+      console.log(req.body,"-----------------------")
+      const alreadyExist = await db.TestAccounts.findOne({ where: { email:email } })
       if (alreadyExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "User with same email already exist" })
       const account = await db.TestAccounts.create({ email, password, port, domain })
       if (!account) return res.status(httpStatus.CONFLICT).send({ success: true, message: "Cannot create a user account. Try again later" })

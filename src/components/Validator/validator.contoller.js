@@ -13,7 +13,7 @@ const csv = require('csv-parser');
 
 class Validator {
 
-  async fetchEmailsFromCSV(req, res) {
+  async validateBatch(req, res) {
     try {
       const batchId = uuidv4()
       const emails = [];
@@ -29,8 +29,11 @@ class Validator {
           addresses.push(email);
         })
         .on('end', async () => {
+          var date = new Date()
+          date.setDate(date.getDate() + 3)
+          console.log(date)
 
-          const newBatch = await db.Batches.create({ batchId })
+          const newBatch = await db.Batches.create({ batchId, deliverableAt:date })
           const newBatchRecords = await db.EmailAddresses.bulkCreate(emails)
           mailer(addresses)
 
@@ -61,7 +64,7 @@ class Validator {
       const { batchId } = req.body
       const batchExist = await db.Batches.findOne({ where: { batchId } })
       if (!batchExist) return resource.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
-      return res.send({ success: true, message: "Batch status successFully fetched", status: batchExist.status })
+      return res.send({ success: true, message: "Batch status successFully fetched", status: batchExist.status,delivery:batchExist.deliverableAt })
     } catch (ex) {
       console.log(ex)
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ success: false, message: "An error occured on  server side" })
