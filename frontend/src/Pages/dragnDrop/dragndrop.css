@@ -1,5 +1,5 @@
 body {
-  
+
   background: linear-gradient(to bottom, #88b9ee, #0d5eb5);
   margin: 0;
 }
@@ -47,6 +47,25 @@ body {
   background-color: #0099ff;
   color: #fff;
 }
+
+.admin-button {
+  width: fit-content;
+  white-space: nowrap;
+  background: dodgerblue;
+  color: white;
+  font-weight: 500;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+  background: rgb(0, 116, 232);
+}
+
 
 /* Tab content */
 .tab-content {
@@ -104,8 +123,10 @@ body {
   background-color: #f0f0f0;
   padding: 10px;
   margin-top: 20px;
-  font-family: monospace; /* Optional: Use a monospace font for console text */
-  color: #333; /* Optional: Set a desired text color */
+  font-family: monospace;
+  /* Optional: Use a monospace font for console text */
+  color: #333;
+  /* Optional: Set a desired text color */
   border-radius: 6px;
   text-align: -webkit-center;
 }
@@ -144,13 +165,14 @@ body {
   color: red;
 }
 
-.email-table .pending, .email-table .finalized{
+.email-table .pending,
+.email-table .finalized {
   font-style: italic;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-    font-size: 15px;
-    font-weight: 500;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .email-table .pending {
@@ -160,4 +182,3 @@ body {
 .email-table .finalized {
   color: #23ea00;
 }
-

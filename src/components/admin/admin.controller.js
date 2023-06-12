@@ -48,7 +48,7 @@ class Admin {
       const alreadyExist = await db.TestAccounts.findOne({ where: { email } })
       if (alreadyExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "User with same email already exist" })
       const account = await db.TestAccounts.create({ email, password, port, domain })
-      if (!account) return res.status(httpStatus.CONFLICT).send({ success: true, message: "Cannot create a user account.Try again later" })
+      if (!account) return res.status(httpStatus.CONFLICT).send({ success: true, message: "Cannot create a user account. Try again later" })
       return res.send({ message: "Account successfully created" })
 
     } catch (ex) {

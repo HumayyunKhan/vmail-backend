@@ -7,6 +7,10 @@ import BulkEmail from '../../Components/BulkEmail';
 import ValidationStatus from '../../Components/ValidationStatus';
 import AllBatchIDs from '../../Components/AllBatchIDs';
 import EmailsResult from '../../Components/EmailsResult';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
+
 
 const FileHandler = () => {
 
@@ -20,6 +24,8 @@ const FileHandler = () => {
   const [allBatchIDs, setAllBatchIDs] = useState(null)
 
   const [currentTab, setCurrentTab] = useState(0);
+
+  const navigate = useNavigate();
 
   const handleTabChange = (index) => {
     setCurrentTab(index);
@@ -269,6 +275,12 @@ const FileHandler = () => {
               {tab.title}
             </button>
           ))}
+          <button
+              className={`admin-button`}
+              onClick={() => {navigate("/admin")}}
+            >
+             <FontAwesomeIcon icon={faGear} style={{color: "#ffffff",}} /> Admin Panel
+            </button>
         </div>
         <div className="tab-content">
           {tabs.map((tab, index) => (
