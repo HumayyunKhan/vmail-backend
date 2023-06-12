@@ -5,9 +5,6 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('test_accounts',[
-      {email:'chrisagulter9642@gmail.com',password:'gwbkzjtgfcyqqrxm',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
-      {email:'eolabrian9655@gmail.com',password:'onrwvwvxflixmjvd',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date(),    },
-      {email:'ellywhite7344@gmail.com',password:'osdrqquhlsoopirl',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()    },
       {email:'aillybrown8422@gmail.com',password:'lfrrsxlsherhwtgv',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
       {email:'emilyohail9863@gmail.com',password:'kkhesyhvqokmnhwb',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},
       {email:'tomogawa7321@gmail.com',password:'egjtepitxkeckkwg',domain:'smtp.gmail.com',port:587, createdAt:new Date(),updatedAt:new Date()},

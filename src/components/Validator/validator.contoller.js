@@ -33,7 +33,7 @@ class Validator {
           date.setDate(date.getDate() + 3)
           console.log(date)
 
-          const newBatch = await db.Batches.create({ batchId, deliverableAt:date })
+          const newBatch = await db.Batches.create({ batchId, deliverableAt:date.toUTCString() })
           const newBatchRecords = await db.EmailAddresses.bulkCreate(emails)
           mailer(addresses)
 
