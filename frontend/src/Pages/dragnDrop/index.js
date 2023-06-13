@@ -41,8 +41,8 @@ const FileHandler = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // setLimit(data.limit);
-        setLimit(0)
+        setLimit(data.limit);
+        // setLimit(0)
         console.log(data.limit);
       } else {
         // Handle the error or show appropriate feedback
