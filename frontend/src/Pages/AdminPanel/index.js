@@ -53,6 +53,11 @@ const AdminPanel = () => {
     };
 
     const renderAddModal = () => {
+        setEmail('');
+        setPassword('');
+        setPort(null);
+        setDomain('')
+
         setIsModalOpen(true);
     }
 
@@ -61,9 +66,16 @@ const AdminPanel = () => {
         setIsModalOpen(false);
     }
 
-    const openUpdateModal = (id) => {
+    const openUpdateModal = (id, email) => {
+        
         setIsUpdate(true);
         setUpdateId(id);
+
+        setEmail(email);
+        setPassword('');
+        setPort(null);
+        setDomain('');
+        
         setIsModalOpen(true);
     }
 
@@ -72,9 +84,16 @@ const AdminPanel = () => {
         setTimeout(() => {
             setIsUpdate(false);
         }, 500);
+        setEmail('');
     }
 
     const onAddAccount = async () => {
+
+        if(email === '' || password === '' || port === null || domain === '')
+        {
+            alert("Please enter all the fields");
+            return;
+        }
 
         try {
             const response = await fetch('http://localhost:4000/admin/registerAccount', {
@@ -101,11 +120,16 @@ const AdminPanel = () => {
                 const json = await response.json();
                 // Process the response data
                 console.log(json);
+                alert("Record Added Successfully");
+                handleCloseModal();
+                fetchAccounts();
             } else {
-                throw new Error('Failed to Add Account');
+                alert("Failed to Add Account");
+                // throw new Error('Failed to Add Account');
             }
         } catch (error) {
             console.error(error);
+            alert("Error: ", error);
         }
 
     }
@@ -122,16 +146,26 @@ const AdminPanel = () => {
 
             if (response.ok) {
                 console.log('Record deleted successfully');
+                alert("Record Deleted Succesfully");
+                fetchAccounts();
             } else {
                 console.log('Record deletion failed');
+                alert("Record Deletion Failed")
             }
         } catch (error) {
             console.error('An error occurred:', error);
+            alert('An error occurred:', error)
         }
     }
 
     const handleUpdate = async (id) => {
         console.log("Update Account id: " + id)
+        if(email === '' || password === '' || port === null || domain === '')
+        {
+            alert("Please enter all the fields");
+            return;
+        }
+
         try {
             const response = await fetch(`http://localhost:4000/admin/updateAccount/${id}`, {
                 method: 'PUT',
@@ -148,6 +182,7 @@ const AdminPanel = () => {
 
             if (response.ok) {
                 console.log('Record Update successfully');
+                alert("Record Updated Successfully");
                 closeUpdateModal();
                 fetchAccounts();
             } else {
@@ -156,6 +191,7 @@ const AdminPanel = () => {
             }
         } catch (error) {
             console.error('An error occurred:', error);
+            alert('An error occurred:', error);
         }
     }
 
@@ -182,7 +218,7 @@ const AdminPanel = () => {
                         <div className='row'>
                             <div className='input-container'>
                                 <label>Email</label>
-                                <input type="email" onChange={(e) => setEmail(e.target.value)} />
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
                             <div className='input-container'>
                                 <label>Password</label>
@@ -234,7 +270,7 @@ const AdminPanel = () => {
                                                 <p style={{ width: '7%' }}>{account.port}</p>
                                                 <p style={{ width: '21%' }}>{account.createdAt}</p>
                                                 <p style={{ width: '21%' }}>{account.updatedAt}</p>
-                                                <button className='btn update-button' onClick={() => openUpdateModal(account.id)}>
+                                                <button className='btn update-button' onClick={() => openUpdateModal(account.id , account.email)}>
                                                     <FontAwesomeIcon icon={faPen} style={{ color: "#363636", }} />
                                                 </button>
                                                 <button className='btn delete-button' onClick={() => handleDelete(account.id)}>

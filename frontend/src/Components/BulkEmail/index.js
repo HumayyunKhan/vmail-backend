@@ -35,6 +35,11 @@ const BulkEmail = (props) => {
     };
 
     const handleSubmit = async () => {
+        if(props.limit <= 0)
+        {
+            alert("Daily Limit has been Reached!!");
+            return;
+        }
         const response = await props.validateEmails(selectedFiles[0])
         console.log('handleSubmit response : ' + response)
         setBatchId(response);

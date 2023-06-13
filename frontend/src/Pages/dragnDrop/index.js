@@ -27,6 +27,35 @@ const FileHandler = () => {
 
   const navigate = useNavigate();
 
+  const [limit, setLimit] = useState(null);
+
+  useEffect(() => {
+    fetchDailyLimit();
+
+
+  }, []);
+
+  const fetchDailyLimit = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/validate/dailyLimit');
+
+      if (response.ok) {
+        const data = await response.json();
+        // setLimit(data.limit);
+        setLimit(0)
+        console.log(data.limit);
+      } else {
+        // Handle the error or show appropriate feedback
+        console.log('Failed to fetch daily limit');
+        alert("Failed to fetch Daily Limit")
+        // return;
+      }
+    } catch (error) {
+      // Handle the error or show appropriate feedback
+      console.error('An error occurred:', error);
+    }
+  };
+
   const handleTabChange = (index) => {
     setCurrentTab(index);
   };
@@ -95,7 +124,7 @@ const FileHandler = () => {
   const emailResult = async (batchId) => {
     if (await statusCheck(batchId) === "PENDING") {
       return "PENDING";
-    } 
+    }
 
     try {
       const response = await fetch('http://localhost:4000/validate/result', {
@@ -225,6 +254,7 @@ const FileHandler = () => {
         // Process the response data
         console.log(json);
         console.log(json.data.batchId);
+        fetchDailyLimit();
 
         return json.data.batchId
 
@@ -253,7 +283,7 @@ const FileHandler = () => {
   }
 
   const tabs = [
-    { title: 'Validate Bulk Emails', content: <BulkEmail validateEmails={validateEmails}></BulkEmail> },
+    { title: 'Validate Bulk Emails', content: <BulkEmail validateEmails={validateEmails} limit={limit}></BulkEmail> },
     { title: 'Check Validation Status', content: <ValidationStatus statusCheck={statusCheck}></ValidationStatus> },
     { title: 'Emails Result', content: <EmailsResult emailResult={emailResult}></EmailsResult> },
     { title: 'Get All Batch IDs', content: <AllBatchIDs getAllBatchIds={getAllBatchIds}></AllBatchIDs> },
@@ -276,12 +306,18 @@ const FileHandler = () => {
             </button>
           ))}
           <button
-              className={`admin-button`}
-              onClick={() => {navigate("/admin")}}
-            >
-             <FontAwesomeIcon icon={faGear} style={{color: "#ffffff",}} /> Admin Panel
-            </button>
+            className={`admin-button`}
+            onClick={() => { navigate("/admin") }}
+          >
+            <FontAwesomeIcon icon={faGear} style={{ color: "#ffffff", }} /> Admin Panel
+          </button>
         </div>
+
+        <div className={limit > 0 ? "daily-limiter daily-limit-available" : "daily-limiter daily-limit-exceed"}>
+          {limit && limit > 0 ? "Daily Limit Available: ": "Daily Limit has been reached. Please try tomorrow"}
+          {limit > 0 ? limit : ''}
+        </div>
+
         <div className="tab-content">
           {tabs.map((tab, index) => (
             <div
@@ -310,25 +346,25 @@ const FileHandler = () => {
                   <tr>
                     <th className='column-heading'>No.</th>
                     <th className='column-heading'>Emails</th>
-                    {discardedEmails.length !== 0 && discardedEmails !== null ? <th className='column-heading'>Discarded Emails</th>: null}
+                    {discardedEmails.length !== 0 && discardedEmails !== null ? <th className='column-heading'>Discarded Emails</th> : null}
                     {/* <th className='column-heading'>IsValid</th>
                     <th className='column-heading'>IsDomainAvailable</th>
                     <th className='column-heading'>IsActive</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {emailsData.length >= discardedEmails.length ? 
-                  (emailsData.length > 0 ? emailsData.map((email, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{email.email}</td>
-                      {discardedEmails.length > index && discardedEmails !== null ? <td>{discardedEmails[index].email}</td> : null}
-                      {/* <td>{email.isValid ? 'Yes' : 'No'}</td> */}
-                      {/* <td>{email.isDomainAvailable ? 'Yes' : 'No'}</td> */}
-                      {/* <td>{email.isActive ? 'Yes' : 'No'}</td> */}
-                    </tr>
-                  )) : null )
-                    : 
+                  {emailsData.length >= discardedEmails.length ?
+                    (emailsData.length > 0 ? emailsData.map((email, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{email.email}</td>
+                        {discardedEmails.length > index && discardedEmails !== null ? <td>{discardedEmails[index].email}</td> : null}
+                        {/* <td>{email.isValid ? 'Yes' : 'No'}</td> */}
+                        {/* <td>{email.isDomainAvailable ? 'Yes' : 'No'}</td> */}
+                        {/* <td>{email.isActive ? 'Yes' : 'No'}</td> */}
+                      </tr>
+                    )) : null)
+                    :
                     discardedEmails.length > 0 ? discardedEmails.map((email, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
@@ -339,7 +375,7 @@ const FileHandler = () => {
                         {/* <td>{email.isActive ? 'Yes' : 'No'}</td> */}
                       </tr>
                     )) : null
-                }
+                  }
                 </tbody>
               </table>
             </div>)

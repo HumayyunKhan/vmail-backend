@@ -66,6 +66,23 @@ body {
   background: rgb(0, 116, 232);
 }
 
+.daily-limiter {
+  text-align: center;
+  padding: 11px;
+  border-radius: 6px;
+  margin: 11px 0;
+  font-size: 24px;
+}
+
+.daily-limit-available {
+  background: #afffbc;
+  color: #0e5400;
+}
+
+.daily-limit-exceed {
+  background: #ffbbbb;
+  color: #750101;
+}
 
 /* Tab content */
 .tab-content {
