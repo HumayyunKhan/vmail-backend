@@ -5,12 +5,14 @@ const ValidationStatus = (props) => {
 
     const [textValue, setTextValue] = useState('')
     const [validationStatus, setValidationStatus] = useState('')
+    const [deliveryTime, setDeliveryTime] = useState('')
 
 
     const checkStatus = async (text) => {
         const response = await props.statusCheck(text);
         console.log("Validation Status: " + response)
-        setValidationStatus(response);
+        setValidationStatus(response.status);
+        setDeliveryTime(response.delivery);
     }
 
 
@@ -33,6 +35,8 @@ const ValidationStatus = (props) => {
             {validationStatus !== '' ?
                 <div className='validation-status-container'>
                     <h5 className='validation-status'>Validation status: &nbsp;<p className={validationStatus === 'PENDING' ? 'pending' : 'finalized'}>{validationStatus}</p>
+                    </h5>
+                    <h5 className='validation-status'>Validation time: &nbsp;<p className={validationStatus === 'PENDING' ? 'pending' : 'finalized'}>{deliveryTime}</p>
                     </h5>
                 </div>
                 : null

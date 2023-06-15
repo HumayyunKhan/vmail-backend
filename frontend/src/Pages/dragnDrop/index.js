@@ -78,7 +78,7 @@ const FileHandler = () => {
         console.log(json);
         console.log(json.status);
         console.log(json.success);
-        return json.status;
+        return json;
 
       } else {
         throw new Error('Failed to upload CSV');
@@ -389,6 +389,7 @@ const FileHandler = () => {
                       <th className='column-heading'>No.</th>
                       <th className='column-heading'>Batch IDs</th>
                       <th className='column-heading'>Status</th>
+                      <th className='column-heading'>Delivery</th>
                       {/* <th className='column-heading'>IsValid</th>
                     <th className='column-heading'>IsDomainAvailable</th>
                     <th className='column-heading'>IsActive</th> */}
@@ -400,6 +401,7 @@ const FileHandler = () => {
                         <td>{index + 1}</td>
                         <td>{batchId.batchId}</td>
                         <td className={batchId.status === 'PENDING' ? 'pending' : 'finalized'}>{batchId.status}</td>
+                        <td className={batchId.status === 'PENDING' ? 'pending' : 'finalized'}>{batchId.deliverableAt}</td>
                         {/* <td>{email.isValid ? 'Yes' : 'No'}</td> */}
                         {/* <td>{email.isDomainAvailable ? 'Yes' : 'No'}</td> */}
                         {/* <td>{email.isActive ? 'Yes' : 'No'}</td> */}
