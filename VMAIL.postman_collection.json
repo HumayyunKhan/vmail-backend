@@ -62,7 +62,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:4000/admin/deleteAccount/12"
+						"url": "http://localhost:4000/admin/deleteAccount/13"
 					},
 					"response": []
 				},
@@ -80,7 +80,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:4000/admin/updateAccount/13"
+						"url": "http://localhost:4000/admin/updateAccount/15"
 					},
 					"response": []
 				}
@@ -107,8 +107,11 @@
 		},
 		{
 			"name": "DAILYLIMIT",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "formdata",
@@ -120,7 +123,7 @@
 						}
 					]
 				},
-				"url": "https://vmail.herokuapp.com/validate/bulkValidate"
+				"url": "http://localhost:4000/validate/dailyLimit"
 			},
 			"response": []
 		},
@@ -131,7 +134,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
+					"raw": "{\r\n    \"batchId\":\"ef7f699a-7bc7-404a-bbb1-4cb51ea98e68\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -139,6 +142,44 @@
 					}
 				},
 				"url": "http://localhost:4000/validate/checkStatus"
+			},
+			"response": []
+		},
+		{
+			"name": "DOWNLOAD BATCH",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/validate/downloadBatch?batchId=aece32f5-54e7-4f21-9a50-7dc9064243cc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"validate",
+						"downloadBatch"
+					],
+					"query": [
+						{
+							"key": "batchId",
+							"value": "aece32f5-54e7-4f21-9a50-7dc9064243cc"
+						}
+					]
+				}
 			},
 			"response": []
 		},
