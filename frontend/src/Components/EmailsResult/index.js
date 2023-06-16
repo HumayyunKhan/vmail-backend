@@ -31,7 +31,7 @@ const EmailsResult = (props) => {
                 <input
                     type="text"
                     value={textValue}
-                    placeholder='Enter you Batch ID'
+                    placeholder='Enter your Batch ID'
                     onChange={(e) => setTextValue(e.target.value)}
                 />
             </div>
@@ -41,16 +41,17 @@ const EmailsResult = (props) => {
                 : null
             }
 
-            {
-                resultStatus === 'FINALIZE' ?
-                <button className="btn result-btn" disabled={resultStatus === 'PENDING' ? true : false} target="_blank" onClick={() => { downloadFile(textValue) }}>Download -=-=Result</button>
-                : null
-
-            }
-
             <div className='btn-container'>
                 <button onClick={() => { getResult(textValue) }}>Get Validation Result</button>
             </div>
+
+            {
+                resultStatus === 'FINALIZED' ?
+                (<div className='btn-container'>
+                    <button className="btn result-btn" onClick={() => { downloadFile(textValue) }}>Download Result</button>
+                </div>)
+                : null
+            }
         </>
     )
 }

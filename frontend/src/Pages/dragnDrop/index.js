@@ -122,7 +122,8 @@ const FileHandler = () => {
   }
 
   const emailResult = async (batchId) => {
-    if (await statusCheck(batchId) === "PENDING") {
+    const status = await statusCheck(batchId);
+    if (status.status === "PENDING") {
       return "PENDING";
     }
 
@@ -150,6 +151,7 @@ const FileHandler = () => {
         setEmailsData(json.data)
         // setDiscardedEmails()
         // console.log(json.data);
+        return "FINALIZED";
 
       } else {
         throw new Error('emailResult error');
@@ -161,17 +163,20 @@ const FileHandler = () => {
 
   const downloadResult = async (batchId) => {
     try {
-      const response = await fetch(`http://localhost:4000/validate/downloadBatch?batchId=${batchId}`);
+      const response = await fetch(`http://localhost:4000/validate/downloadBatch?batchId=${batchId}`); // Replace with your API endpoint URL
 
       if (response.ok) {
-        const data = await response.json();
-
-        console.log(data);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'data.csv'); // Set the desired filename for the downloaded file
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
       } else {
         // Handle the error or show appropriate feedback
-        console.log('Failed to Download Result');
-        alert("Failed to Download Result")
-        // return;
+        console.log('Failed to download CSV file');
       }
     } catch (error) {
       // Handle the error or show appropriate feedback
