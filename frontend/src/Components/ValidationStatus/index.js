@@ -14,6 +14,14 @@ const ValidationStatus = (props) => {
         setValidationStatus(response.status);
         setDeliveryTime(response.delivery);
     }
+    const downloadFile = async (text) => {
+        console.log("-=-=-=-=-=-=-=-=-=-=-=")
+        const response = await props.downloadResult(text);
+        debugger;
+        console.log('-----------')
+        // console.log("Validation Status: " + response)
+        // setResultStatus(response);
+    }
 
 
     return (
@@ -39,8 +47,8 @@ const ValidationStatus = (props) => {
                     <h5 className='validation-time'>Validation time: &nbsp;<p className={validationStatus === 'PENDING' ? 'pending' : 'finalized'}>{deliveryTime}</p>
                     </h5>
                     <div className='result-btn-container'>
-                        <button className="btn result-btn" disabled={validationStatus === 'PENDING' ? true : false}>Download Result</button>
-                    </div>
+                    <button className="btn result-btn"  target="_blank" onClick={() => { downloadFile(textValue) }}>Download Result</button>
+        </div>
                 </div>
                 : null
             }

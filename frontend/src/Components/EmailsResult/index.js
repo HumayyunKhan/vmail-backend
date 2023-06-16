@@ -12,6 +12,14 @@ const EmailsResult = (props) => {
         // console.log("Validation Status: " + response)
         setResultStatus(response);
     }
+    const downloadFile = async (text) => {
+        console.log("-=-=-=-=-=-=-=-=-=-=-=")
+        const response = await props.downloadResult(text);
+        debugger;
+        console.log('-----------')
+        // console.log("Validation Status: " + response)
+        // setResultStatus(response);
+    }
 
 
     return (
@@ -35,8 +43,9 @@ const EmailsResult = (props) => {
 
             {
                 resultStatus === 'FINALIZE' ?
-                <button className="btn result-btn" disabled={resultStatus === 'PENDING' ? true : false}>Download Result</button>
+                <button className="btn result-btn" disabled={resultStatus === 'PENDING' ? true : false} target="_blank" onClick={() => { downloadFile(textValue) }}>Download -=-=Result</button>
                 : null
+
             }
 
             <div className='btn-container'>
