@@ -40,9 +40,16 @@ const BulkEmail = (props) => {
             alert("Daily Limit has been Reached!!");
             return;
         }
+        if (selectedFiles.length <= 0){
+            alert("Please Upload a CSV file")
+            return;
+        }
         const response = await props.validateEmails(selectedFiles[0])
         console.log('handleSubmit response : ' + response)
-        setBatchId(response);
+        if(response !== undefined)
+        {
+            setBatchId(response);
+        }
     }
 
 

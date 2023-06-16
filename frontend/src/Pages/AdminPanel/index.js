@@ -271,7 +271,7 @@ const AdminPanel = () => {
                                                 <p style={{ width: '21%' }}>{account.createdAt}</p>
                                                 <p style={{ width: '21%' }}>{account.updatedAt}</p>
                                                 <button className='btn update-button' onClick={() => openUpdateModal(account.id , account.email)}>
-                                                    <FontAwesomeIcon icon={faPen} style={{ color: "#363636", }} />
+                                                    <FontAwesomeIcon icon={faPen} style={{ color: "#363636", }} /> Edit
                                                 </button>
                                                 <button className='btn delete-button' onClick={() => handleDelete(account.id)}>
                                                     <FontAwesomeIcon icon={faTrash} style={{ color: "#ffffff", }} /> Delete

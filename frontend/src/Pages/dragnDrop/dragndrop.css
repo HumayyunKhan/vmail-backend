@@ -199,3 +199,21 @@ body {
 .email-table .finalized {
   color: #23ea00;
 }
+
+
+.result-btn {
+  color: white !important;
+  border: none;
+  background-color: #0099ff !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+  transition: 0.3s ease;
+
+}
+
+.result-btn:hover {
+  background-color: #0085de !important;
+}

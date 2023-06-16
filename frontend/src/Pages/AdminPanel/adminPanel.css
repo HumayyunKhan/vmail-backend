@@ -27,6 +27,11 @@
     color: white;
 }
 
+.update-button {
+    font-size: 14px;
+    
+}
+
 .delete-button {
     padding: 8px 10px;
     background: rgb(213, 0, 0);

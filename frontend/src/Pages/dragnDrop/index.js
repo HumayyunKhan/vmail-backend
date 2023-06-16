@@ -159,83 +159,30 @@ const FileHandler = () => {
     }
   }
 
+  const downloadResult = async (batchId) => {
+    try {
+      const response = await fetch(`http://localhost:4000/validate/downloadBatch?batchId=${batchId}`);
+
+      if (response.ok) {
+        const data = await response.json();
+
+        console.log(data);
+      } else {
+        // Handle the error or show appropriate feedback
+        console.log('Failed to Download Result');
+        alert("Failed to Download Result")
+        // return;
+      }
+    } catch (error) {
+      // Handle the error or show appropriate feedback
+      console.error('An error occurred:', error);
+    }
+  };
+
+
   const validateEmails = async (csvFile) => {
 
     // setIsLoading(true)
-
-    // setEmailResult([{
-    //   email: "sherykhan@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: false
-    // },
-    // {
-    //   email: "ferozamdasdasir@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: false,
-    //   isActice: false
-    // },
-    // {
-    //   email: "johnsmith@yahoo.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: true
-    // },
-    // {
-    //   email: "sherykhan@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: false
-    // },
-    // {
-    //   email: "ferozamdasdasir@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: false,
-    //   isActice: false
-    // },
-    // {
-    //   email: "johnsmith@yahoo.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: true
-    // },
-    // {
-    //   email: "sherykhan@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: false
-    // },
-    // {
-    //   email: "ferozamdasdasir@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: false,
-    //   isActice: false
-    // },
-    // {
-    //   email: "johnsmith@yahoo.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: true
-    // },
-    // {
-    //   email: "sherykhan@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: false
-    // },
-    // {
-    //   email: "ferozamdasdasir@gmail.com",
-    //   isValid: true,
-    //   isDomainAvailable: false,
-    //   isActice: false
-    // },
-    // {
-    //   email: "johnsmith@yahoo.com",
-    //   isValid: true,
-    //   isDomainAvailable: true,
-    //   isActice: true
-    // }])
-
     // setTimeout(() => {
     //   setIsLoading(false)
     // }, 2000);
@@ -259,6 +206,7 @@ const FileHandler = () => {
         return json.data.batchId
 
       } else {
+        alert("Failed to upload CSV");
         throw new Error('Failed to upload CSV');
       }
     } catch (error) {
@@ -284,8 +232,21 @@ const FileHandler = () => {
 
   const tabs = [
     { title: 'Validate Bulk Emails', content: <BulkEmail validateEmails={validateEmails} limit={limit}></BulkEmail> },
-    { title: 'Check Validation Status', content: <ValidationStatus statusCheck={statusCheck}></ValidationStatus> },
-    { title: 'Emails Result', content: <EmailsResult emailResult={emailResult}></EmailsResult> },
+    {
+      title: 'Check Validation Status', content:
+        <ValidationStatus
+          statusCheck={statusCheck} 
+          downloadResult={downloadResult}
+        ></ValidationStatus>
+    },
+    {
+      title: 'Emails Result', content:
+        <EmailsResult
+          emailResult={emailResult}
+          downloadResult={downloadResult}
+          statusCheck={statusCheck}>
+        </EmailsResult>
+    },
     { title: 'Get All Batch IDs', content: <AllBatchIDs getAllBatchIds={getAllBatchIds}></AllBatchIDs> },
     // { title: 'Tab 3', content: <div>Content for Tab 3</div> },
   ];
@@ -314,7 +275,7 @@ const FileHandler = () => {
         </div>
 
         <div className={limit > 0 ? "daily-limiter daily-limit-available" : "daily-limiter daily-limit-exceed"}>
-          {limit && limit > 0 ? "Daily Limit Available: ": "Daily Limit has been reached. Please try tomorrow"}
+          {limit && limit > 0 ? "Daily Limit Available: " : "Daily Limit has been reached. Please try tomorrow"}
           {limit > 0 ? limit : ''}
         </div>
 
@@ -390,6 +351,7 @@ const FileHandler = () => {
                       <th className='column-heading'>Batch IDs</th>
                       <th className='column-heading'>Status</th>
                       <th className='column-heading'>Delivery</th>
+                      <th className='column-heading'>Validation Result</th>
                       {/* <th className='column-heading'>IsValid</th>
                     <th className='column-heading'>IsDomainAvailable</th>
                     <th className='column-heading'>IsActive</th> */}
@@ -402,6 +364,7 @@ const FileHandler = () => {
                         <td>{batchId.batchId}</td>
                         <td className={batchId.status === 'PENDING' ? 'pending' : 'finalized'}>{batchId.status}</td>
                         <td className={batchId.status === 'PENDING' ? 'pending' : 'finalized'}>{batchId.deliverableAt}</td>
+                        <td><button className='btn result-btn' disabled={batchId.status === 'PENDING' ? true : false} onClick={() => downloadResult(batchId.batchId)}>Download</button></td>
                         {/* <td>{email.isValid ? 'Yes' : 'No'}</td> */}
                         {/* <td>{email.isDomainAvailable ? 'Yes' : 'No'}</td> */}
                         {/* <td>{email.isActive ? 'Yes' : 'No'}</td> */}

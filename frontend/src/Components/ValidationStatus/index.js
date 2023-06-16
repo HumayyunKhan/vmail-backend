@@ -36,8 +36,11 @@ const ValidationStatus = (props) => {
                 <div className='validation-status-container'>
                     <h5 className='validation-status'>Validation status: &nbsp;<p className={validationStatus === 'PENDING' ? 'pending' : 'finalized'}>{validationStatus}</p>
                     </h5>
-                    <h5 className='validation-status'>Validation time: &nbsp;<p className={validationStatus === 'PENDING' ? 'pending' : 'finalized'}>{deliveryTime}</p>
+                    <h5 className='validation-time'>Validation time: &nbsp;<p className={validationStatus === 'PENDING' ? 'pending' : 'finalized'}>{deliveryTime}</p>
                     </h5>
+                    <div className='result-btn-container'>
+                        <button className="btn result-btn" disabled={validationStatus === 'PENDING' ? true : false}>Download Result</button>
+                    </div>
                 </div>
                 : null
             }

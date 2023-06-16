@@ -33,6 +33,12 @@ const EmailsResult = (props) => {
                 : null
             }
 
+            {
+                resultStatus === 'FINALIZE' ?
+                <button className="btn result-btn" disabled={resultStatus === 'PENDING' ? true : false}>Download Result</button>
+                : null
+            }
+
             <div className='btn-container'>
                 <button onClick={() => { getResult(textValue) }}>Get Validation Result</button>
             </div>
