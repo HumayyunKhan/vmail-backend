@@ -22,11 +22,13 @@ async function mailer(addresses) {
                 where: {
                     createdAt: {
                         [Op.between]: [startOfDay, endOfDay],
-                    }, creditsUsed: { [Op.lt]: 500 }
+                    }, creditsUsed: { [Op.lt]: 500 },deletedAt:null
                 }, include: { model: db.TestAccounts, attribute: ['email', 'password', 'domain', 'port'] }
             })
-
-
+if(!sender){
+    console.log("NO ACCOUND AVAILABLE")
+}
+console.log(sender)
             const transporter = nodemailer.createTransport({
                 pool: true,
                 host: "smtp.gmail.com",

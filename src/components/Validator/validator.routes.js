@@ -5,12 +5,17 @@ const { validate, ValidationError, Joi } = require('express-validation');
 const { Upload: upload } = require("../../helpers/upload")
 
 router.post('/bulkValidate', upload.single('file'), (req, res) => {
-    Validator.fetchEmailsFromCSV(req, res)
+    Validator.validateBatch(req, res)
 
 })
 router.post('/checkStatus', Validator.checkStatus)
+router.get('/downloadBatch', Validator.downloadBatch)
 router.post('/result', (req, res) => {
     Validator.processedData(req, res)
+
+})
+router.get('/dailyLimit', (req, res) => {
+    Validator.dailyLimit(req, res)
 
 })
 router.get('/getBatches', (req, res) => {

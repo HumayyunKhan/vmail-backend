@@ -1,0 +1,84 @@
+.title-container .title {
+  text-align: center;
+  margin-bottom: 3%;
+}
+
+.bulk-email-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .bulk-email-container p {
+    margin-bottom: 10px;
+  }
+  
+  .bulk-email-container input[type="file"] {
+    display: none;
+  }
+  
+  .bulk-email-container button span {
+  
+    font-size: 22px;
+  }
+  
+  .bulk-email-container button {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .files-list-container {
+    margin-top: 2%;
+  }
+  
+  .files-list-items {
+    width: 50vw;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid gray;
+  }
+  
+  .files-list-items .file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 24ch;
+    margin: 1% 0%;
+  }
+  
+  .batch-id {
+    text-align: center;
+    font-size: 15px;
+  }
+  
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+  }
+  
+  .btn-container button {
+    padding: 8px 16px;
+    background-color: #0099ff;
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s ease;
+  }
+  
+  .btn-container button:hover {
+    background-color: #0085de;
+  }

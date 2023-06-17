@@ -4,10 +4,19 @@ const paramValidation = {
  
   userInfo: {
     body: Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-      port: Joi.number().required(),
-      domain: Joi.string().required(),
+      email: Joi.string().email().optional(),
+      password: Joi.string().optional(),
+      port: Joi.number().optional(),
+      domain: Joi.string().optional(),
+    }),
+    params:Joi.object({
+      id:Joi.number().optional()
+    })
+  },
+  id: {
+    params: Joi.object({
+
+      id: Joi.number().required(),
     }),
   },
 
