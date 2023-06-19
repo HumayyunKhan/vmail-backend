@@ -1,0 +1,124 @@
+
+.crud-buttons {
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    min-height: 100px;
+    display: grid;
+}
+
+.crud-buttons .title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 3rem;
+}
+
+.add-button {
+    background: dodgerblue;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0px 6px;
+    padding: 8px 12px;
+}
+.add-button:hover {
+    background: rgb(0, 116, 233);
+    color: white;
+}
+
+.update-button {
+    font-size: 14px;
+    
+}
+
+.delete-button {
+    padding: 8px 10px;
+    background: rgb(213, 0, 0);
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 9px 6px;
+    transition: .3s ease;
+}
+
+.delete-button:hover {
+    background: rgb(185, 0, 0);
+    color: white;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.input-container {
+    width: 46%;
+    margin: 10px 0px;
+}
+
+.input-container label {
+    
+}
+
+.input-container input {
+    width: 100%;
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 0.5px solid #85858533;
+    color: #434343;
+    background: #f0f0f0;
+    margin: 0;
+}
+
+.accounts-list-container {
+    padding: 2rem 4rem;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    min-height: 200px;
+}
+
+.accounts-list-container .title-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1%;
+    align-items: center;
+}
+
+.accounts-list-container .header-container {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.accounts-list-container .header-container .header {
+    display: flex;
+    width: 85%;
+    margin-left: 1%;
+}
+
+.accounts-list-container .header-container .header p {
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+.account-container {
+    border-top: 0.5px solid;
+    border-bottom: 0.5px solid;
+}
+
+.account-container:hover {
+    background: #dbeeff;
+}
+
+.account-container .account {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}   
+
+.account-container .account p {
+    display: inline-block;
+    margin-top: 1rem;
+}

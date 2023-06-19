@@ -1,0 +1,14 @@
+.result-status {
+    font-size: 16px;
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.result-status p {
+    font-style: italic;
+}
+
+.result-status .pending {
+    color: rgb(255, 179, 0) !important;
+}

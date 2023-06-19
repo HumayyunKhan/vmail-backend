@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "a716fcc0-89e7-43c5-b08f-08f0d7d3228c",
+		"name": "VMAIL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23137824"
+	},
+	"item": [
+		{
+			"name": "ADMIN PANEL",
+			"item": [
+				{
+					"name": "REGISTER TEST ACCOUNT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"dummy@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/registerAccount"
+					},
+					"response": []
+				},
+				{
+					"name": "FETCH ACCOUNTS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kanewilliamson298d@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/getAccounts"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ACCOUNT",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kanewilliamson298d@gmail.com\",\r\n    \"password\":\"uriuxowirmpbnsso\",\r\n    \"port\":587,\r\n    \"domain\":\"smtp.gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/deleteAccount/13"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ACCOUNT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kane@gmail.com\",\r\n    \"password\":\"uriurmpbnsso\",\r\n    \"port\":997,\r\n    \"domain\":\"smtp.domain.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/admin/updateAccount/15"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UPLOAD CSV",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/MIH/Downloads/myFile0.csv"
+						}
+					]
+				},
+				"url": "https://vmail.herokuapp.com/validate/bulkValidate"
+			},
+			"response": []
+		},
+		{
+			"name": "DAILYLIMIT",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/MIH/Downloads/myFile0.csv"
+						}
+					]
+				},
+				"url": "http://localhost:4000/validate/dailyLimit"
+			},
+			"response": []
+		},
+		{
+			"name": "STATUS CHECK",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"ef7f699a-7bc7-404a-bbb1-4cb51ea98e68\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4000/validate/checkStatus"
+			},
+			"response": []
+		},
+		{
+			"name": "DOWNLOAD BATCH",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/validate/downloadBatch?batchId=aece32f5-54e7-4f21-9a50-7dc9064243cc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"validate",
+						"downloadBatch"
+					],
+					"query": [
+						{
+							"key": "batchId",
+							"value": "aece32f5-54e7-4f21-9a50-7dc9064243cc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RESULT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4000/validate/result"
+			},
+			"response": []
+		},
+		{
+			"name": "DISCARDED MAILS",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"batchId\":\"2f4e671b-9b4d-4cda-af4a-4c18736947b0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4000/validate/getDiscardedMails"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

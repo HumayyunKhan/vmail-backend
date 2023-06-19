@@ -1,0 +1,37 @@
+.validation-status {
+    font-size: 16px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.validation-status p {
+    font-style: italic;
+    margin-bottom: 0;
+}
+
+.validation-status .pending {
+    color: rgb(255, 179, 0) !important;
+}
+
+.validation-status .finalized {
+    color: #23ea00;
+}
+
+.validation-time {
+    font-size: 16px;
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.validation-status-container .result-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.validation-status-container .result-btn-container .result-btn {
+    padding: 8px 16px;
+}
