@@ -40,18 +40,15 @@ const FileHandler = () => {
   const fetchDailyLimit = async () => {
     try {
       const response = await fetch(`http://${url}/validate/dailyLimit`);
-
-      if (response.ok) {
-        const data = await response.json();
         setLimit(data.limit);
         // setLimit(0)
         console.log(data.limit);
-      } else {
-        // Handle the error or show appropriate feedback
-        console.log('Failed to fetch daily limit');
-        alert("Failed to fetch Daily Limit")
-        // return;
-      }
+      // } else {
+      //   // Handle the error or show appropriate feedback
+      //   console.log('Failed to fetch daily limit');
+      //   alert("Failed to fetch Daily Limit")
+      //   // return;
+      // }
     } catch (error) {
       // Handle the error or show appropriate feedback
       console.error('An error occurred:', error);

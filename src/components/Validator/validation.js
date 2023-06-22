@@ -1,6 +1,8 @@
-const validator = require('email-validator');
-const emailExistence = require('email-existence');
 const dns = require('dns');
+const fs = require('fs');
+const csv = require('csv-parser');
+const stringify = require('csv-writer').createObjectCsvStringifier;
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 function isValidDomain(domain) {
   return new Promise((resolve, reject) => {
@@ -20,18 +22,42 @@ function isSyntaxValid(email) {
   return emailRegex.test(email);
 }
 
-// Usage example
-const domain = 'wego.com';
+function setValidStatus(csvFilePath,addresses, callback) {
+  const rows = [];
 
-// Usage example
-// const email = 'example@example.com';
-// validateEmail(email)
-//   .then((result) => {
-//     console.log('Email syntax is valid:', result.validSyntax);
-//     console.log('Domain is active:', result.validDomain);
-//     console.log('Email is active:', result.validEmail);
-//   })
-//   .catch((err) => {
-//     console.error('An error occurred:', err);
-//   });
-module.exports = { isValidDomain, isSyntaxValid }
+  // Read the CSV file
+  fs.createReadStream(csvFilePath)
+    .pipe(csv())
+    .on('data', (row) => {
+      rows.push(row);
+    })
+    .on('end', () => {
+      const hasIsValidColumn = Object.keys(rows[0]).includes('isValid');
+
+      // Add 'isValid' column if it doesn't exist
+      // if (!hasIsValidColumn) {
+        rows.forEach((row) => {
+            if(addresses.includes(row.email))row.isValid = false;
+            else row.isValid = true;    
+        });
+
+        // Write the modified rows back to the existing CSV file
+        const csvStringifier = stringify({ header: Object.keys(rows[0]) });
+        const csvWriter = createCsvWriter({
+          path: csvFilePath,
+          header: Object.keys(rows[0]).map((key) => ({ id: key, title: key })),
+        });
+
+        csvWriter.writeRecords(rows).then(() => {
+          callback();
+        });
+      // } else {
+      //   callback();
+      // }
+    });
+}
+// Example usage
+// addIsValidColumnToCSV('./myFile0.csv', () => {
+//   console.log('CSV file modified successfully.');
+// });
+module.exports = { isValidDomain, isSyntaxValid,setValidStatus}

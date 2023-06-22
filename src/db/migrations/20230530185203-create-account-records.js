@@ -59,7 +59,14 @@ module.exports = {
         defaultValue: 'PENDING',
 
       },
-
+      filePath: {
+        type: Sequelize.STRING(700),
+        allowNull: true,
+      },
+      fileName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       deliverableAt: {
         allowNull: true,
         type: Sequelize.DATE

@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     port: DataTypes.INTEGER
   }, {
     sequelize,
+    timestamps:true,
+    paranoid:true,
     tableName: 'test_accounts',
     modelName: 'TestAccounts',
   });
