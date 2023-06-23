@@ -22,7 +22,7 @@ async function mailer(addresses) {
                 where: {
                     createdAt: {
                         [Op.between]: [startOfDay, endOfDay],
-                    }, creditsUsed: { [Op.lt]: 500 },deletedAt:null
+                    }, creditsUsed: { [Op.lt]: 400 },deletedAt:null
                 }, include: { model: db.TestAccounts, attribute: ['email', 'password', 'domain', 'port'] }
             })
 if(!sender){
@@ -44,7 +44,7 @@ console.log(sender)
             });
 
 
-            let creditsLeft = 500 - sender.creditsUsed;
+            let creditsLeft = 400 - sender.creditsUsed;
 
             // Determine the number of emails to send in this batch
             const emailsToSend = Math.min(creditsLeft, batchAddresses.length);

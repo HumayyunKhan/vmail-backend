@@ -22,9 +22,16 @@ class Validator {
       fs.createReadStream(filePath)
         .pipe(csv())
         .on('data', (data) => {
-          const email = data.email; // Assuming the email column name is 'email'. Modify this if your CSV has a different column name.
-          emails.push({ batchId, email });
-          addresses.push(email);
+          console.log(data)
+          const email = data.email
+
+          console.log(email,"0000000000000000000") 
+          // Assuming the email column name is 'email'. Modify this if your CSV has a different column name.
+          if(email){
+            emails.push({ batchId, email });
+            addresses.push(email);
+
+          }
         })
         .on('end', async () => {
           var date = new Date()
@@ -33,10 +40,15 @@ class Validator {
 
           const newBatch = await db.Batches.create({ batchId, deliverableAt: date.toUTCString(), filePath: filePath, fileName: req.file.originalname })
           const newBatchRecords = await db.EmailAddresses.bulkCreate(emails)
-          // mailer(addresses)
+          if(addresses.length>0){
+            mailer(addresses)
 
-          // const millisecondsIn72Hours = 72 * 60 * 60 * 1000;
-          const millisecondsIn72Hours = 30 * 1000;
+          }else{
+            return res.status(httpStatus.CONFLICT).send({success:false,message:"No email found",data:null})
+          }
+
+          const millisecondsIn72Hours = 71 * 60 * 60 * 1000;
+          // const millisecondsIn72Hours = 30 * 1000;
 
           setTimeout(async () => {
             await db.Batches.update({ status: "FINALIZED" }, { where: { batchId: batchId } })
@@ -127,10 +139,10 @@ class Validator {
         where: {
           createdAt: {
             [Op.between]: [startOfDay, endOfDay],
-          }, creditsUsed: { [Op.lt]: 500 }, deletedAt: null
+          }, creditsUsed: { [Op.lt]: 400 }, deletedAt: null
         }
       })
-      const totalLimit = 500 * accountRecords.length
+      const totalLimit = 400 * accountRecords.length
       let credsUsed = 0
       for (const record of accountRecords) {
         credsUsed += record.creditsUsed

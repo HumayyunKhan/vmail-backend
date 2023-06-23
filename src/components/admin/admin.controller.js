@@ -11,7 +11,9 @@ class Admin {
       const { id } = req.params
       const Exist = await db.TestAccounts.findOne({ where: { id } })
       if (!Exist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "Account doesnot exist" })
-      await db.TestAccounts.destroy({ where: { id } })
+      await db.TestAccounts.destroy({ where: { id } })  
+      await db.AccountRecords.destroy({ where: { accountId:id } })
+
       return res.send({ message: "Account successfully deleted" })
 
     } catch (ex) {

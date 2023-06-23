@@ -43,7 +43,7 @@ async function statsHandler() {
     const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
     const recordCreated = await db.AccountRecords.findOne({
-        where: {
+        where: {  
             createdAt: {
                 [Op.between]: [startOfDay, endOfDay],
             }
@@ -58,33 +58,37 @@ async function statsHandler() {
 
 
 }
-async function hourlyMailBoxReader() {
-    try {
-        let responseStatus = false;
-        const testAccounts = await db.TestAccounts.findAll()
-          const job=schedule.scheduleJob('0 */1 * * *',async()=>{
+async function hourlyMailBoxReader() {   
+    try { 
+        let responseStatus = false;       
+        //   const job=schedule.scheduleJob('0 */1 * * *',async()=>{ 
+            const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
+              const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             for (const account of testAccounts) {
-                console.log(account)
+                // console.log(account)
                 let imapConfig = {
                     user: account.email,
                     password: account.password,
                     host: "smtp.gmail.com",
-                    port: 993,
+                    port: 993,  
                     tls: true,
                     tlsOptions: { rejectUnauthorized: false },
 
                 };
-                let uidIndex = 0;
+                let uidIndex = 0; 
+                // console.log(imapConfig)
                 const imap = new Imap(imapConfig);
                 let limitedResult = [];
                 let Result = 0;
                 imap.once('ready', (err) => {
+                    console.log(err)
                     imap.openBox('Inbox', false, (err) => {
                         if (err) {
-                            console.log("ERROR OCCURED AT OPENING BOX")
+                            console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
                         }
                         imap.search([['UNDELETED'], ['TEXT', 'Address not found']], (err, results) => {
                             console.log('results here: ', results, 'no of mails: ', results.length);
+                            // console.log('results here: ', results, 'no of mails: ', results.length,imapConfig);
                             Result = results.lengths;
                             if (results.length > 0) {
                                 limitedResult = results;
@@ -129,7 +133,9 @@ async function hourlyMailBoxReader() {
 
                                     });
 
-                                    mailInstance.once('error', (ex) => Promise.reject(ex));
+                                    mailInstance.once('error', (ex) =>{
+                                        console.log(ex)
+                                    });
 
                                     mailInstance.once('end', () => {
                                         console.log('Done fetching all messages!');
@@ -148,8 +154,10 @@ async function hourlyMailBoxReader() {
                         });
                     });
                 });
-
+                
+                imap.connect()
                 imap.once('error', (err) => {
+                    console.log(err)
                     if (!responseStatus) {
                         //   res.send({ success: false, error: err, message: 'An error occured' });
                         console.log("ERROR OCCURED AT OPENING BOX")
@@ -163,7 +171,7 @@ async function hourlyMailBoxReader() {
 
                 });
 
-                imap.connect();
+                // imap.connect();
             }
         })
 
