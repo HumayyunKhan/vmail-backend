@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   EmailAddresses.init({
     batchId: {type:DataTypes.UUID,field:'batch_id'},
-    email: DataTypes.STRING
+    email: DataTypes.STRING,
   }, {
     sequelize,
     paranoid:true,

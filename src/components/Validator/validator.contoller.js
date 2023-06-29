@@ -41,19 +41,21 @@ class Validator {
           const newBatch = await db.Batches.create({ batchId, deliverableAt: date.toUTCString(), filePath: filePath, fileName: req.file.originalname })
           const newBatchRecords = await db.EmailAddresses.bulkCreate(emails)
           if(addresses.length>0){
-            mailer(addresses)
+            // mailer(addresses)
 
           }else{
             return res.status(httpStatus.CONFLICT).send({success:false,message:"No email found",data:null})
           }
 
           const millisecondsIn72Hours = 71 * 60 * 60 * 1000;
-          // const millisecondsIn72Hours = 30 * 1000;
+          // const millisecondsIn72Hours =  10* 1000;
 
           setTimeout(async () => {
             await db.Batches.update({ status: "FINALIZED" }, { where: { batchId: batchId } })
-            const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null, batchId: batchId } }, paranoid: false })
-            let inValidEmails = discardedMails.map((mail) => mail = mail.email)
+            const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null}, batchId: batchId} , paranoid: false })
+            console.log(discardedMails)
+            let inValidEmails = discardedMails.map(mail=>mail.email)
+
             setValidStatus(filePath, inValidEmails, () => {
               console.log("FILE SUCCESSFULLY MODIFIED")
             })

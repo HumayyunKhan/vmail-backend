@@ -3,6 +3,7 @@ const { simpleParser } = require('mailparser');
 const db = require('./src/db/models')
 const { Op } = require("sequelize");
 const Imap = require('./lib/Connection');
+const {setValidStatus}=require("./src/components/Validator/validation")
 // const account_records = require("./src/db/models/account_records");
 function extractEmailAddress(message) {
     const regex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
@@ -61,8 +62,8 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-        //   const job=schedule.scheduleJob('0 */1 * * *',async()=>{ 
-            const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
+          const job=schedule.scheduleJob('0 */1 * * *',async()=>{ 
+            // const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             for (const account of testAccounts) {
                 // console.log(account)
@@ -180,7 +181,16 @@ async function hourlyMailBoxReader() {
         //   res.send({ success: false, message: 'Error Ocuured', status: 400 });
     }
 };
+async function fileModifier(){
+    const batch=await db.Batches.findOne({where:{batchId:"4e5631fc-acbd-4c31-a418-f189adfc2a68"}})
+    const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null}, batchId: "4e5631fc-acbd-4c31-a418-f189adfc2a68"} , paranoid: false })
+    console.log(discardedMails)
+    let inValidEmails = discardedMails.map(mail=>mail.email)
+
+if(batch){    setValidStatus(batch.filePath, inValidEmails, () => {
+      console.log("FILE SUCCESSFULLY MODIFIED")
+    })}
+}
 
 
-
-module.exports = { dailyStatsHandler, hourlyMailBoxReader, statsHandler }
+module.exports = { dailyStatsHandler, hourlyMailBoxReader, statsHandler,fileModifier }

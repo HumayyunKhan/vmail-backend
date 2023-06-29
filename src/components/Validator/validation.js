@@ -24,6 +24,7 @@ function isSyntaxValid(email) {
 
 function setValidStatus(csvFilePath,addresses, callback) {
   const rows = [];
+  console.log(addresses,"---------------------")
 
   // Read the CSV file
   fs.createReadStream(csvFilePath)
