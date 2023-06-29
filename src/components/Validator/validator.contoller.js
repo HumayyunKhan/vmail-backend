@@ -41,7 +41,7 @@ class Validator {
           const newBatch = await db.Batches.create({ batchId, deliverableAt: date.toUTCString(), filePath: filePath, fileName: req.file.originalname })
           const newBatchRecords = await db.EmailAddresses.bulkCreate(emails)
           if(addresses.length>0){
-            // mailer(addresses)
+            mailer(addresses)
 
           }else{
             return res.status(httpStatus.CONFLICT).send({success:false,message:"No email found",data:null})
