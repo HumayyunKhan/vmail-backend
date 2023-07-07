@@ -10,6 +10,7 @@ router.post('/bulkValidate', upload.single('file'), (req, res) => {
 })
 router.post('/checkStatus', Validator.checkStatus)
 router.get('/downloadBatch', Validator.downloadBatch)
+router.delete('/deleteBatch', Validator.deleteBatch)
 router.post('/result', (req, res) => {
     Validator.processedData(req, res)
 

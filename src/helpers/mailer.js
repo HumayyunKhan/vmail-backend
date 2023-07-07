@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 //-----------------------------
 async function mailer(addresses) {
     try {
-        const batchSize = 100;
+        const batchSize = 25;
         const numAddresses = addresses.length;
         const numBatches = Math.ceil(numAddresses / batchSize);
 

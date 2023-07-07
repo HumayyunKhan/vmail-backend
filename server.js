@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const app = require('./app');
 dailyStatsHandler();
-fileModifier()
+// fileModifier()
 hourlyMailBoxReader() 
 statsHandler()
 const server = http.createServer(app);
