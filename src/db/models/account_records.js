@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   AccountRecords.init({
     accountId: {type:DataTypes.INTEGER,allowNull:false,field:'account_id'},
     creditsUsed: {type:DataTypes.INTEGER,allowNull:false,field:'credits_used'},
-    active: DataTypes.BOOLEAN
+    active: DataTypes.BOOLEAN,
+    allotedTo:{type:DataTypes.UUID,allowNull:true,field:'alloted_to'},
   }, {
     sequelize,
     tableName: 'account_records',

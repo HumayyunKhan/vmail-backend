@@ -3,7 +3,8 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const stringify = require('csv-writer').createObjectCsvStringifier;
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-
+const db = require('../../db/models')
+const { Op } = require('sequelize')
 function isValidDomain(domain) {
   return new Promise((resolve, reject) => {
     dns.resolveMx(domain, (err, addresses) => {
@@ -57,8 +58,28 @@ function setValidStatus(csvFilePath,addresses, callback) {
       // }
     });
 }
+
+async function availableCredits(){
+  const today = new Date();
+  const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+  const accountRecords = await db.AccountRecords.findAll({
+    where: {
+      createdAt: {
+        [Op.between]: [startOfDay, endOfDay],
+      }, creditsUsed: { [Op.lt]: 400 }, deletedAt: null
+    }
+  })
+  const totalLimit = 400 * accountRecords.length
+  let credsUsed = 0
+  for (const record of accountRecords) {
+    credsUsed += record.creditsUsed
+  }
+  return totalLimit-credsUsed
+}
 // Example usage
 // addIsValidColumnToCSV('./myFile0.csv', () => {
 //   console.log('CSV file modified successfully.');
 // });
-module.exports = { isValidDomain, isSyntaxValid,setValidStatus}
+module.exports = { isValidDomain, isSyntaxValid,setValidStatus,availableCredits}

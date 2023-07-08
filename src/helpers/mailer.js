@@ -4,7 +4,7 @@ const db = require("../db/models")
 const { Op } = require("sequelize");
 
 //-----------------------------
-async function mailer(addresses) {
+async function mailer(addresses,batchId) {
     try {
         const batchSize = 25;
         const numAddresses = addresses.length;
@@ -22,7 +22,7 @@ async function mailer(addresses) {
                 where: {
                     createdAt: {
                         [Op.between]: [startOfDay, endOfDay],
-                    }, creditsUsed: { [Op.lt]: 400 },deletedAt:null
+                    }, creditsUsed: { [Op.lt]: 400 },deletedAt:null,allotedTo:batchId
                 }, include: { model: db.TestAccounts, attribute: ['email', 'password', 'domain', 'port'] }
             })
 if(!sender){
