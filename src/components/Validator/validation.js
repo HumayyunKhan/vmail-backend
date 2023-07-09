@@ -68,7 +68,7 @@ async function availableCredits(){
     where: {
       createdAt: {
         [Op.between]: [startOfDay, endOfDay],
-      }, creditsUsed: { [Op.lt]: 400 }, deletedAt: null
+      }, creditsUsed: { [Op.lt]: 400 }, deletedAt: null,allotedTo:null
     }
   })
   const totalLimit = 400 * accountRecords.length

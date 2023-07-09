@@ -62,7 +62,7 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-          const job=schedule.scheduleJob('0 */1 * * *',async()=>{ 
+          const job=schedule.scheduleJob('0 */1 * * * *',async()=>{ 
             // const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             for (const account of testAccounts) {
