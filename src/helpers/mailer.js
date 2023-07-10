@@ -8,7 +8,10 @@ async function mailer(addresses, batchId) {
     try {
         let counter = 0;
         const job = schedule.scheduleJob('0 */1 * * * *', async function () {
-            if (counter >= addresses.length) job.cancel();
+            if (counter >= addresses.length){ 
+                await db.AccountRecords.update({allotedTo:null},{where:{allotedTo:batchId}})
+                job.cancel();
+            }
 console.log("-------------------------Running Cron-------------------")
             const today = new Date();
             const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -58,6 +61,7 @@ console.log("-------------------------Running Cron-------------------")
                     { creditsUsed: await db.sequelize.literal(`credits_used + 1`) }, { where: { id: sender.id } }
                 )
             }
+            
         })
 
         console.log("All emails sent successfully.");

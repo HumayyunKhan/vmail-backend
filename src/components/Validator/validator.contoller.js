@@ -59,7 +59,8 @@ class Validator {
             let accountLimit = 0
             for (const account of sender) {
               if (accountLimit < listLength) {
-                accountLimit += account.creditsUsed - 400
+                accountLimit += 400-account.creditsUsed 
+                console.log(accountLimit)
                 accountRecordIds.push(account.id)
               }
             }
