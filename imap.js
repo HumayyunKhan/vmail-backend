@@ -62,7 +62,7 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-          const job=schedule.scheduleJob('0 */1 * * * *',async()=>{ 
+          const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
             // const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             for (const account of testAccounts) {
@@ -87,7 +87,7 @@ async function hourlyMailBoxReader() {
                         if (err) {
                             console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
                         }
-                        imap.search([['UNDELETED'], ['TEXT', 'Address not found']], (err, results) => {
+                        imap.search([['UNDELETED'], ['TEXT', 'not delivered']], (err, results) => {
                             console.log('results here: ', results, 'no of mails: ', results.length);
                             // console.log('results here: ', results, 'no of mails: ', results.length,imapConfig);
                             Result = results.lengths;
@@ -110,9 +110,12 @@ async function hourlyMailBoxReader() {
                                                     from, subject, textAsHtml, text, to, headerLines,
                                                 } = parsed;
                                                 console.log('parsed..............................', text);
-                                                const email = extractEmailAddress(text);
-                                                console.log(email);
-                                                await db.EmailAddresses.destroy({ where: { email: email } })
+                                                if(text){
+                                                    const email = extractEmailAddress(text);
+                                                    console.log(email);
+                                                    await db.EmailAddresses.destroy({ where: { email: email } })
+
+                                                }
 
                                                 await imap.setFlags(uid, '\\Deleted', () => {
                                                     console.log('successfully deleted');
