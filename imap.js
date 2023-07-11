@@ -3,7 +3,8 @@ const { simpleParser } = require('mailparser');
 const db = require('./src/db/models')
 const { Op } = require("sequelize");
 const Imap = require('./lib/Connection');
-const {setValidStatus}=require("./src/components/Validator/validation")
+const {setValidStatus}=require("./src/components/Validator/validation");
+const { parse } = require("dotenv");
 // const account_records = require("./src/db/models/account_records");
 function extractEmailAddress(message) {
     const regex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
@@ -62,7 +63,7 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-          const job=schedule.scheduleJob('0 */2 * * * *',async()=>{ 
+          const job=schedule.scheduleJob('0 */1 * * * *',async()=>{ 
             // const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             for (const account of testAccounts) {
@@ -87,7 +88,7 @@ async function hourlyMailBoxReader() {
                         if (err) {
                             console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
                         }
-                        imap.search([['UNDELETED'], ['TEXT', 'not delivered']], (err, results) => {
+                        imap.search([['UNDELETED'], ['TEXT', 'Address not found']], (err, results) => {
                             console.log('results here: ', results, 'no of mails: ', results.length);
                             // console.log('results here: ', results, 'no of mails: ', results.length,imapConfig);
                             Result = results.lengths;
@@ -106,10 +107,11 @@ async function hourlyMailBoxReader() {
                                         console.log(msg, 'msg here---------------');
                                         msg.on('body', (stream) => {
                                             simpleParser(stream, async (err, parsed) => {
+                                                console.log(err,"---------")
                                                 const {
                                                     from, subject, textAsHtml, text, to, headerLines,
                                                 } = parsed;
-                                                console.log('parsed..............................', text);
+                                                console.log('parsed..............................', parsed);
                                                 if(text){
                                                     const email = extractEmailAddress(text);
                                                     console.log(email);
@@ -119,7 +121,7 @@ async function hourlyMailBoxReader() {
 
                                                 await imap.setFlags(uid, '\\Deleted', () => {
                                                     console.log('successfully deleted');
-                                                    // imap.end();
+                                                    // imap.end(); 
                                                 });
 
 
