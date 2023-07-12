@@ -63,9 +63,12 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-          const job=schedule.scheduleJob('0 */1 * * * *',async()=>{ 
+          const job=schedule.scheduleJob('0 */3 * * * *',async()=>{ 
             // const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
+            //   let testAccounts=[];
+            //   testAccounts.push(testAccounts1[0])
+
             for (const account of testAccounts) {
                 // console.log(account)
                 let imapConfig = {
