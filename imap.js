@@ -91,7 +91,7 @@ async function hourlyMailBoxReader() {
                         if (err) {
                             console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
                         }
-                        imap.search([['UNDELETED'], ['FROM', 'mailer-daemon@googlemail.com']], (err, results) => {
+                        imap.search([['UNDELETED'], ['TEXT', 'delivered']], (err, results) => {
                         // imap.search([['UNDELETED'], ['SUBJECT', 'Greetings']], (err, results) => {
                             console.log('results here: ', results, 'no of mails: ', results.length);
                             // console.log('results here: ', results, 'no of mails: ', results.length,imapConfig);
