@@ -45,7 +45,7 @@ console.log("-------------------------Running Cron-------------------")
                 const mailOptions = {
                     from: sender.TestAccount.email,
                     to: addresses[counter],
-                    subject: 'Greetings',
+                    subject: `Greetings:${addresses[counter]}`,
                     text: 'This is a test email sent from a burner email account.'
                 };
                 console.log("-------------------------", mailOptions, "-----------------------------")

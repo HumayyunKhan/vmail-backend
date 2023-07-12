@@ -64,7 +64,7 @@ async function hourlyMailBoxReader() {
     try { 
         let responseStatus = false;       
         //   const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
-            const job=schedule.scheduleJob('0 */3 * * * *',async()=>{
+            const job=schedule.scheduleJob('0 */1 * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             //   let testAccounts=[];
             //   testAccounts.push(testAccounts1[0])
@@ -91,6 +91,7 @@ async function hourlyMailBoxReader() {
                         if (err) {
                             console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
                         }
+                        // imap.search([['ALL']], (err, results) => {
                         imap.search([['UNDELETED'], ['TEXT', 'delivered']], (err, results) => {
                         // imap.search([['UNDELETED'], ['SUBJECT', 'Greetings']], (err, results) => {
                             console.log('results here: ', results, 'no of mails: ', results.length);
@@ -101,7 +102,7 @@ async function hourlyMailBoxReader() {
                                 limitedResult.reverse();
 
                                 const fetchOptions = {
-                                    bodies: ['TEXT'],
+                                    bodies: ['HEADER.FIELDS (FROM TO SUBJECT TEXT TEXTASHTML DATE MESSAGE-ID X-CUSTOM-HEADER X-MY-CUSTOM-HEADER)'],
                                 };
                                 limitedResult.forEach((uid) => {
 
@@ -116,8 +117,8 @@ async function hourlyMailBoxReader() {
                                                     from, subject, textAsHtml, text, to, headerLines,
                                                 } = parsed;
                                                 console.log('parsed..............................', parsed);
-                                                if(text){
-                                                    const email = extractEmailAddress(text);
+                                                if(subject){
+                                                    const email = extractEmailAddress(subject);
                                                     console.log(email);
                                                     await db.EmailAddresses.destroy({ where: { email: email } })
 
