@@ -88,7 +88,7 @@ async function hourlyMailBoxReader() {
                         if (err) {
                             console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
                         }
-                        imap.search([['UNDELETED'], ['TEXT', 'Address not found']], (err, results) => {
+                        imap.search([['UNDELETED'], ['SUBJECT', 'Greetings']], (err, results) => {
                             console.log('results here: ', results, 'no of mails: ', results.length);
                             // console.log('results here: ', results, 'no of mails: ', results.length,imapConfig);
                             Result = results.lengths;
