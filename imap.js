@@ -63,8 +63,8 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-          const job=schedule.scheduleJob('0 */3 * * * *',async()=>{ 
-            // const job=schedule.scheduleJob('*/15 * * * * *',async()=>{
+        //   const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
+            const job=schedule.scheduleJob('0 */3 * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             //   let testAccounts=[];
             //   testAccounts.push(testAccounts1[0])
@@ -91,7 +91,8 @@ async function hourlyMailBoxReader() {
                         if (err) {
                             console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
                         }
-                        imap.search([['UNDELETED'], ['SUBJECT', 'Greetings']], (err, results) => {
+                        imap.search([['UNDELETED'], ['FROM', 'mailer-daemon@googlemail.com']], (err, results) => {
+                        // imap.search([['UNDELETED'], ['SUBJECT', 'Greetings']], (err, results) => {
                             console.log('results here: ', results, 'no of mails: ', results.length);
                             // console.log('results here: ', results, 'no of mails: ', results.length,imapConfig);
                             Result = results.lengths;
