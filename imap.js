@@ -102,7 +102,7 @@ async function hourlyMailBoxReader() {
                                 limitedResult.reverse();
 
                                 const fetchOptions = {
-                                    bodies: ['HEADER.FIELDS (FROM TO SUBJECT TEXT TEXTASHTML DATE MESSAGE-ID X-CUSTOM-HEADER X-MY-CUSTOM-HEADER)'],
+                                    bodies:'',
                                 };
                                 limitedResult.forEach((uid) => {
 
@@ -119,8 +119,11 @@ async function hourlyMailBoxReader() {
                                                 console.log('parsed..............................', parsed);
                                                 if(subject){
                                                     const email = extractEmailAddress(subject);
+                                                    const email1 = extractEmailAddress(text);
                                                     console.log(email);
+                                                    console.log(email1);
                                                     await db.EmailAddresses.destroy({ where: { email: email } })
+                                                    await db.EmailAddresses.destroy({ where: { email: email1 } })
 
                                                 }
 
