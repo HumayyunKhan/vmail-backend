@@ -63,8 +63,8 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-        //   const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
-            const job=schedule.scheduleJob('0 */1 * * * *',async()=>{
+          const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
+            // const job=schedule.scheduleJob('0 */1 * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             //   let testAccounts=[];
             //   testAccounts.push(testAccounts1[0])
@@ -127,10 +127,144 @@ async function hourlyMailBoxReader() {
 
                                                 }
 
-                                                await imap.setFlags(uid, '\\Deleted', () => {
-                                                    console.log('successfully deleted');
-                                                    // imap.end(); 
-                                                });
+                                                // await imap.setFlags(uid, '\\Deleted', () => {
+                                                //     console.log('successfully deleted');
+                                                //     // imap.end(); 
+                                                // });
+
+
+                                                console.log(limitedResult[uidIndex], '------------uidINDEX HERE');
+                                                uidIndex++;
+                                                if (uidIndex == limitedResult.length) {
+                                                    console.log('Connection ended');
+
+                                                    // imap.destroy();
+                                                    responseStatus = true;
+
+                                                }
+                                            });
+                                        });
+
+                                    });
+
+                                    mailInstance.once('error', (ex) =>{
+                                        console.log(ex)
+                                    });
+
+                                    mailInstance.once('end', () => {
+                                        console.log('Done fetching all messages!');
+                                        //   imap.end();
+                                    });
+                                });
+
+                                if (err) {
+                                    console.log(err);
+                                }
+                            } else {
+                                console.log("NO MAIL FOUND")
+                                responseStatus = true;
+                                imap.destroy();
+                            }
+                        });
+                    });
+                });
+                
+                imap.connect()
+                imap.once('error', (err) => {
+                    console.log(err)
+                    if (!responseStatus) {
+                        //   res.send({ success: false, error: err, message: 'An error occured' });
+                        console.log("ERROR OCCURED AT OPENING BOX")
+
+                        responseStatus = true;
+                    }
+                    imap.destroy();
+                });
+                imap.once('end', async () => {
+                    console.log('Connection ended');
+
+                });
+
+                // imap.connect();
+            }
+        })
+
+    } catch (ex) {
+        console.log('an error occurred', ex);
+        //   res.send({ success: false, message: 'Error Ocuured', status: 400 });
+    }
+};
+async function hourlyMailBoxReaderSpam() {   
+    try { 
+        let responseStatus = false;       
+          const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
+            // const job=schedule.scheduleJob('0 */1 * * * *',async()=>{
+              const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
+            //   let testAccounts=[];
+            //   testAccounts.push(testAccounts1[0])
+
+            for (const account of testAccounts) {
+                // console.log(account)
+                let imapConfig = {
+                    user: account.email,
+                    password: account.password,
+                    host: "smtp.gmail.com",
+                    port: 993,  
+                    tls: true,
+                    tlsOptions: { rejectUnauthorized: false },
+
+                };
+                let uidIndex = 0; 
+                // console.log(imapConfig)
+                const imap = new Imap(imapConfig);
+                let limitedResult = [];
+                let Result = 0;
+                imap.once('ready', (err) => {
+                    console.log(err)
+                    imap.openBox('Inbox.spam', false, (err) => {
+                        if (err) {
+                            console.log("ERROR OCCURED AT OPENING BOX",imapConfig)
+                        }
+                        // imap.search([['ALL']], (err, results) => {
+                        imap.search([['UNDELETED'], ['TEXT', 'delivered']], (err, results) => {
+                        // imap.search([['UNDELETED'], ['SUBJECT', 'Greetings']], (err, results) => {
+                            console.log('results here: ', results, 'no of mails: ', results.length);
+                            // console.log('results here: ', results, 'no of mails: ', results.length,imapConfig);
+                            Result = results.lengths;
+                            if (results.length > 0) {
+                                limitedResult = results;
+                                limitedResult.reverse();
+
+                                const fetchOptions = {
+                                    bodies:'',
+                                };
+                                limitedResult.forEach((uid) => {
+
+                                    const mailInstance = imap.fetch(uid, fetchOptions);
+
+                                    mailInstance.on('message', (msg) => {
+                                        console.log(msg, 'msg here---------------');
+                                        msg.on('body', (stream) => {
+                                            simpleParser(stream, async (err, parsed) => {
+                                                console.log(err,"---------")
+                                                const {
+                                                    from, subject, textAsHtml, text, to, headerLines,
+                                                } = parsed;
+                                                console.log('parsed..............................', parsed);
+                                                if(subject){
+                                                    const email = extractEmailAddress(subject);
+                                                    const email1 = extractEmailAddress(text);
+                                                    console.log(email);
+                                                    console.log(email1);
+                                                    await db.EmailAddresses.destroy({ where: { email: email } })
+                                                    await db.EmailAddresses.destroy({ where: { email: email1 } })
+
+                                                }
+
+                                                // await imap.setFlags(uid, '\\Deleted', () => {
+                                                //     console.log('successfully deleted');
+                                                //     // imap.end(); 
+                                                // });
 
 
                                                 console.log(limitedResult[uidIndex], '------------uidINDEX HERE');
@@ -206,4 +340,4 @@ if(batch){    setValidStatus(batch.filePath, inValidEmails, () => {
 }
 
 
-module.exports = { dailyStatsHandler, hourlyMailBoxReader, statsHandler,fileModifier }
+module.exports = { dailyStatsHandler, hourlyMailBoxReader, statsHandler,fileModifier,hourlyMailBoxReaderSpam }
