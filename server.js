@@ -8,7 +8,7 @@ const app = require('./app');
 dailyStatsHandler();
 // fileModifier()
 hourlyMailBoxReader() 
-hourlyMailBoxReaderSpam
+hourlyMailBoxReaderSpam()
 statsHandler()
 const server = http.createServer(app);
 
