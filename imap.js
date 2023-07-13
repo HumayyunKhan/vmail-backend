@@ -329,8 +329,8 @@ async function hourlyMailBoxReaderSpam() {
     }
 };
 async function fileModifier(){
-    const batch=await db.Batches.findOne({where:{batchId:"4e5631fc-acbd-4c31-a418-f189adfc2a68"}})
-    const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null}, batchId: "4e5631fc-acbd-4c31-a418-f189adfc2a68"} , paranoid: false })
+    const batch=await db.Batches.findOne({where:{batchId:"ea955942-aaa5-40b8-822d-dcd6d48a860a"}})
+    const discardedMails = await db.EmailAddresses.findAll({ where: { deletedAt: { [Op.ne]: null}, batchId: "ea955942-aaa5-40b8-822d-dcd6d48a860a"} , paranoid: false })
     console.log(discardedMails)
     let inValidEmails = discardedMails.map(mail=>mail.email)
 
