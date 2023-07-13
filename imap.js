@@ -63,7 +63,7 @@ async function statsHandler() {
 async function hourlyMailBoxReader() {   
     try { 
         let responseStatus = false;       
-          const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
+          const job=schedule.scheduleJob('0 */1 * * * *',async()=>{ 
             // const job=schedule.scheduleJob('0 */1 * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             //   let testAccounts=[];
@@ -197,7 +197,7 @@ async function hourlyMailBoxReader() {
 async function hourlyMailBoxReaderSpam() {   
     try { 
         let responseStatus = false;       
-          const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
+          const job=schedule.scheduleJob('0 */1 * * * *',async()=>{ 
             // const job=schedule.scheduleJob('0 */1 * * * *',async()=>{
               const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
             //   let testAccounts=[];
