@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     domain: DataTypes.STRING,
-    port: DataTypes.INTEGER
+    port: DataTypes.INTEGER,
+    active:DataTypes.BOOLEAN
   }, {
     sequelize,
     timestamps:true,

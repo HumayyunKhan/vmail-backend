@@ -53,7 +53,7 @@ class Validator {
                 createdAt: {
                   [Op.between]: [startOfDay, endOfDay],
                 }, creditsUsed: { [Op.lt]: 400 }, deletedAt: null, allotedTo: null
-              }, include: { model: db.TestAccounts, attribute: ['email', 'password', 'domain', 'port'] }
+              }, include: { model: db.TestAccounts, attribute: ['email', 'password', 'domain', 'port'] ,where:{active:true}}
             })
             if(sender.length==0)return res.status(409).send({success:false,message:'No test account available',})
             let accountLimit = 0

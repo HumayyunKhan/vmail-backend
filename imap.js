@@ -64,8 +64,8 @@ async function hourlyMailBoxReader() {
     try { 
         let responseStatus = false;       
         //   const job=schedule.scheduleJob('*/20 * * * * *',async()=>{ 
-            const job=schedule.scheduleJob('0 */2 * * * *',async()=>{
-              const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
+            const job=schedule.scheduleJob('0 */1 * * * *',async()=>{
+              const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null,active:true}}) 
             //   let testAccounts=[];
             //   testAccounts.push(testAccounts1[0])
 
@@ -127,10 +127,10 @@ async function hourlyMailBoxReader() {
 
                                                 }
 
-                                                await imap.setFlags(uid, '\\Deleted', () => {
-                                                    console.log('successfully deleted');
-                                                    // imap.end(); 
-                                                });
+                                                // await imap.setFlags(uid, '\\Deleted', () => {
+                                                //     console.log('successfully deleted');
+                                                //     // imap.end(); 
+                                                // });
 
 
                                                 console.log(limitedResult[uidIndex], '------------uidINDEX HERE');
@@ -148,7 +148,7 @@ async function hourlyMailBoxReader() {
                                     });
 
                                     mailInstance.once('error', (ex) =>{
-                                        console.log(ex)
+                                        console.log(ex,"mail instances")
                                     });
 
                                     mailInstance.once('end', () => {
@@ -158,7 +158,7 @@ async function hourlyMailBoxReader() {
                                 });
 
                                 if (err) {
-                                    console.log(err);
+                                    console.log(err,"last -----------");
                                 }
                             } else {
                                 console.log("NO MAIL FOUND")
@@ -170,8 +170,10 @@ async function hourlyMailBoxReader() {
                 });
                 
                 imap.connect()
-                imap.once('error', (err) => {
-                    console.log(err)
+                imap.once('error', async(err) => {
+                    console.log(imap._config.user)
+                    if(imap._config.user)await db.TestAccounts.update({active:false},{where:{email:imap._config.user}})
+                    console.log(err,"imap.once---------------")
                     if (!responseStatus) {
                         //   res.send({ success: false, error: err, message: 'An error occured' });
                         console.log("ERROR OCCURED AT OPENING BOX")
@@ -199,7 +201,7 @@ async function hourlyMailBoxReaderSpam() {
         let responseStatus = false;       
         //   const job=schedule.scheduleJob('0/10 * * * * *',async()=>{ 
             const job=schedule.scheduleJob('0 */2 * * * *',async()=>{
-              const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null}}) 
+              const testAccounts = await db.TestAccounts.findAll({where:{deletedAt:null,active:true}}) 
             //   let testAccounts=[];
             //   testAccounts.push(testAccounts1[0])
 
