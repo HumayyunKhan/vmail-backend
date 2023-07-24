@@ -150,8 +150,10 @@ async function hourlyMailBoxReader() {
                 
                 imap.connect()
                 imap.once('error', async(err) => {
+                    if(err.source=="authentication"){
+                        if(imap._config.user)await db.TestAccounts.update({active:false},{where:{email:imap._config.user}})
+                    }
                     console.log(imap._config.user)
-                    if(imap._config.user)await db.TestAccounts.update({active:false},{where:{email:imap._config.user}})
                     console.log(err,"imap.once---------------")
                     if (!responseStatus) {
                         //   res.send({ success: false, error: err, message: 'An error occured' });
