@@ -106,10 +106,10 @@ async function hourlyMailBoxReader() {
 
                                                 }
 
-                                                // await imap.setFlags(uid, '\\Deleted', () => {
-                                                //     console.log('successfully deleted');
-                                                //     // imap.end(); 
-                                                // });
+                                                await imap.setFlags(uid, '\\Deleted', () => {
+                                                    console.log('successfully deleted');
+                                                    // imap.end(); 
+                                                });
 
 
                                                 console.log(limitedResult[uidIndex], '------------uidINDEX HERE');
