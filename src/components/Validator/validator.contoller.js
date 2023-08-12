@@ -66,7 +66,7 @@ class Validator {
             }
             await db.AccountRecords.update({ allotedTo: batchId }, { where: { id: { [Op.in]: accountRecordIds } } })
 
-            mailer(addresses, batchId)
+            // mailer(addresses, batchId)
 
           } else {
             return res.status(httpStatus.CONFLICT).send({ success: false, message: "No email found", data: null })
@@ -129,7 +129,13 @@ class Validator {
       // let batchId="ef7f699a-7bc7-404a-bbb1-4cb51ea98e68"
       const batchExist = await db.Batches.findOne({ where: { batchId } })
       if (!batchExist) return res.status(httpStatus.CONFLICT).send({ success: false, message: "No batch found against specified batch Id" })
+      await db.EmailAddresses.destroy({where:{batchId:batchId},force:true})
+     await  fs.rmSync(batchExist.filePath, {
+        force: true,
+    });
+    
       await db.Batches.destroy({ where: { batchId: batchId } })
+    
       return res.send({ success: true, message: "Batch successfully deleted  " })
     } catch (ex) {
       console.log(ex)
