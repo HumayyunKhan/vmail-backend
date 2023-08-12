@@ -66,7 +66,7 @@ class Validator {
             }
             await db.AccountRecords.update({ allotedTo: batchId }, { where: { id: { [Op.in]: accountRecordIds } } })
 
-            // mailer(addresses, batchId)
+            mailer(addresses, batchId)
 
           } else {
             return res.status(httpStatus.CONFLICT).send({ success: false, message: "No email found", data: null })
